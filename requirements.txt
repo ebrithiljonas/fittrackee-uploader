@@ -1,0 +1,4 @@
+PyQt6>=6.4.2 
+PyQt6-WebEngine>=6.4.0
+folium>=0.14.0
+fitdecode>=0.10.0
