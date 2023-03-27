@@ -19,21 +19,11 @@
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
     <item>
-     <widget class="QWidget" name="map_widget" native="true">
-      <property name="minimumSize">
-       <size>
-        <width>362</width>
-        <height>296</height>
-       </size>
-      </property>
-      <property name="mouseTracking">
-       <bool>false</bool>
-      </property>
-      <property name="acceptDrops">
-       <bool>false</bool>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
+     <widget class="QWebEngineView" name="webMap">
+      <property name="url">
+       <url>
+        <string>about:blank</string>
+       </url>
       </property>
      </widget>
     </item>
@@ -128,6 +118,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

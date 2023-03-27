@@ -35,35 +35,31 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setup_callbacks()
-
+        
         fitfile = fit.FitFile("test.fit")
-        extent = calculate_extent(fitfile.getPoints())
-
-        m = folium.Map(
-        	tiles='OpenStreetMap'
-        )
-        m.fit_bounds(extent)
-        path = folium.PolyLine(fitfile.getPoints(), color="#0000FF")
-        path.add_to(m)
-
-        # save map data to data object
-        data = io.BytesIO()
-        m.save(data, close_file=False)
-
-        map_layout = QtWidgets.QVBoxLayout()
-        self.ui.map_widget.setLayout(map_layout)
-        webView = QWebEngineView()
-        webView.setHtml(data.getvalue().decode())
-
-        map_layout.addWidget(webView)
-
-        # self.ui.map_widget. = webView
+        self.setMap(fitfile.getPoints())
 
         self.show()
         sys.exit(app.exec())
 
     def setup_callbacks(self):
         pass
+
+    def setMap(self, path):
+        m = folium.Map(
+        	tiles='OpenStreetMap'
+        )
+
+        # TODO Replace calculate_extent with Path Object
+        m.fit_bounds(calculate_extent(path))
+        path = folium.PolyLine(path, color="#0000FF")
+        path.add_to(m)
+        
+        data = io.BytesIO()
+        m.save(data, close_file=False)
+
+        self.ui.webMap.setHtml(data.getvalue().decode())
+
 
 
 if __name__ == '__main__':
