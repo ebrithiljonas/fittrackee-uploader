@@ -2,10 +2,11 @@ import sys
 import io
 import folium
 from PyQt6 import QtWidgets
-from PyQt6.QtWebEngineWidgets import QWebEngineView
 
 import fit
 from ui.main import Ui_MainWindow
+import options
+import login
 
 class Uploader(QtWidgets.QMainWindow):
 
@@ -15,15 +16,24 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setup_callbacks()
+
+        self.options_window = options.Options()
+        self.login_window = login.Login()
         
+        # TODO Debug Only
         fitfile = fit.FitFile("test.fit")
         self.setMap(fitfile.getWorkout())
+
+        # TODO Load Settings
+        # TODO Try Login --> If it fails, show Login Screen
+        # TODO If Path is set, load first file
 
         self.show()
         sys.exit(app.exec())
 
     def setup_callbacks(self):
-        pass
+        self.ui.actionQuit.triggered.connect(sys.exit)
+        self.ui.actionOptions.triggered.connect(self.options)
 
     def setMap(self, workout):
         m = folium.Map(
@@ -40,7 +50,8 @@ class Uploader(QtWidgets.QMainWindow):
 
         self.ui.webMap.setHtml(data.getvalue().decode())
 
-
-
+    def options(self):
+        self.options_window.show()
+        
 if __name__ == '__main__':
     uploader = Uploader()
