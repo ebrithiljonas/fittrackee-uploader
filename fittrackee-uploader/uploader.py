@@ -1,10 +1,11 @@
 import sys
 import io
 import folium
-from PyQt6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
+from PyQt6 import QtWidgets
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 
 import fit
+from ui.main import Ui_MainWindow
 
 # ===== Move to seperate class =====
 
@@ -26,18 +27,14 @@ def calculate_center(coords):
 
 # ========================================
 
-"""
-Folium in PyQt5
-"""
-class MyApp(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('Folium in PyQt Example')
-        self.window_width, self.window_height = 1600, 1200
-        self.setMinimumSize(self.window_width, self.window_height)
+class Uploader(QtWidgets.QMainWindow):
 
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+    def __init__(self):
+        app = QtWidgets.QApplication(sys.argv)
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.setup_callbacks()
 
         fitfile = fit.FitFile("test.fit")
         extent = calculate_extent(fitfile.getPoints())
@@ -53,23 +50,21 @@ class MyApp(QWidget):
         data = io.BytesIO()
         m.save(data, close_file=False)
 
+        map_layout = QtWidgets.QVBoxLayout()
+        self.ui.map_widget.setLayout(map_layout)
         webView = QWebEngineView()
         webView.setHtml(data.getvalue().decode())
-        layout.addWidget(webView)
+
+        map_layout.addWidget(webView)
+
+        # self.ui.map_widget. = webView
+
+        self.show()
+        sys.exit(app.exec())
+
+    def setup_callbacks(self):
+        pass
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    app.setStyleSheet('''
-        QWidget {
-            font-size: 35px;
-        }
-    ''')
-    
-    myApp = MyApp()
-    myApp.show()
-
-    try:
-        sys.exit(app.exec())
-    except SystemExit:
-        print('Closing Window...')
+    uploader = Uploader()
