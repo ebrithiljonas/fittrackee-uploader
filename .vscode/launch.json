@@ -11,6 +11,14 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Python: Main",
+            "type": "python",
+            "request": "launch",
+            "program": "fittrackee-uploader/uploader.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }

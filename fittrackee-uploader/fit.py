@@ -1,7 +1,5 @@
 import fitdecode
-import datetime
-import gpxpy
-import gpxpy.gpx
+import workout
 
 class FitFile:
 
@@ -47,37 +45,14 @@ class FitFile:
         # Sort Records
         if self.records:
             self.records = sorted(self.records, key=lambda x: x.timestamp)
-                
-    def getGPX(self):
-        gpx = gpxpy.gpx.GPX()
-        # Create first track in our GPX:
-        gpx_track = gpxpy.gpx.GPXTrack()
-        gpx.tracks.append(gpx_track)
-        # Create first segment in our GPX track:
-        gpx_segment = gpxpy.gpx.GPXTrackSegment()
-        gpx_track.segments.append(gpx_segment)
-        # Create points:
-        for record in self.records:
-            if record.has_position():
-                point = gpxpy.gpx.GPXTrackPoint(record.get_lat(), record.get_long(), round(record.altitude, 3), record.timestamp, speed=record.speed)
-                gpx_segment.points.append(point)
-        return gpx.to_xml(version='1.0')
 
-    def getLists(self):
-        lats = []
-        lons = []
-        for record in self.records:
-            if record.has_position():
-                lats.append(record.get_lat())
-                lons.append(record.get_long())
-        return lats, lons
-
-    def getPoints(self):
+    def getWorkout(self):
         points = []
         for record in self.records:
             if record.has_position():
-                points.append((record.get_lat(), record.get_long()))
-        return points
+                point = workout.Point(record.timestamp, (record.getLat(), record.getLong()), record.altitude, record.speed, record.heart_rate, record.cadence, record.speed)
+                points.append(point)
+        return workout.Workout(points)
 
     def get_sport(self):
         sport = self.attributes['sport']
@@ -114,10 +89,10 @@ class Record:
         else:
             return False
 
-    def get_lat(self):
+    def getLat(self):
         return round(float(self.position_lat * 180) / float(2**31), 9) 
 
-    def get_long(self):
+    def getLong(self):
         return round(float(self.position_long * 180) / float(2**31), 9)
 
     def get_time():
