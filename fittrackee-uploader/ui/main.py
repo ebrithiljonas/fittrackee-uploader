@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "FitTrackee Uploader"))
         self.tbTitle.setPlaceholderText(_translate("MainWindow", "Title"))
         self.buttonUpload.setText(_translate("MainWindow", "Upload"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
