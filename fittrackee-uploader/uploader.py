@@ -4,9 +4,11 @@ import folium
 from PyQt6 import QtWidgets
 
 import fit
+import fittrackee
 from ui.main import Ui_MainWindow
 import options
 import login
+import configuration
 
 class Uploader(QtWidgets.QMainWindow):
 
@@ -17,15 +19,23 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.setup_callbacks()
 
-        self.options_window = options.Options()
-        self.login_window = login.Login()
-        
-        # TODO Debug Only
-        fitfile = fit.FitFile("test.fit")
-        self.setMap(fitfile.getWorkout())
+        self.config = configuration.Configuration()
+        self.config.saveConfig()
 
-        # TODO Load Settings
-        # TODO Try Login --> If it fails, show Login Screen
+        self.api = fittrackee.FitTrackee()
+
+        self.options_window = options.Options(self.config)
+        self.login_window = login.Login(self.config, self.api)
+
+        if None in [self.config.server_url, self.config.email, self.config.token]:
+            self.login_window.show()
+        else:
+            # Try saved token
+            self.api.setUrl(self.config.server_url)
+            self.api.setToken(self.config.token)
+            if not self.api.getUserInfo():
+                self.login_window.show()
+
         # TODO If Path is set, load first file
 
         self.show()

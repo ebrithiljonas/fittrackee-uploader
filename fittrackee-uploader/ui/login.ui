@@ -54,7 +54,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Username</string>
+        <string>Email</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -62,7 +62,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="tbUsername"/>
+      <widget class="QLineEdit" name="tbEmail"/>
      </item>
     </layout>
    </item>

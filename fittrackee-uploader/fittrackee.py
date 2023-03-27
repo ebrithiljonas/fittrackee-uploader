@@ -2,39 +2,52 @@ import requests
 
 class FitTrackee():
 
-    link = None
+    url = None
     token = None
     token_header = None
     user = None
 
-    def __init__(self, link: str):
-        if link.endswith('/'):
-            self.link = link
-        else:
-            self.link = link + '/'
+    def __init__(self):
+        pass
 
-    def login(self, email: str, password: str):
+    def setUrl(self, url):
+        if url.endswith('/'):
+            self.url = url
+        else:
+            self.url = url + '/'
+
+    def setToken(self, token):
+        self.token = token
+        self.token_header = {'Authorization': f'Bearer {self.token}'}
+
+    def login(self,url: str, email: str, password: str):
         # Authenticate
-        url = self.link + 'api/auth/login'
+        self.setUrl(url)
+        url = self.url + 'api/auth/login'
         json = {'email': email, 'password': password}
         resp = requests.post(url, json = json)
         if resp.status_code == 200:
             json = resp.json()
             self.token = json['auth_token']
-            self.token_header = {'Authorization': f'Bearer {self.token}'}
+            self.setToken(self.token)
             # Get User Info
-            url = self.link + 'api/auth/profile'
-            resp = requests.get(url, headers=self.token_header)
-            if resp.status_code == 200:
-                json = resp.json()
-                self.user = json['data']['username']
-            else:
-                print('Failed to get Userdata')
+            return self.getUserInfo()
         else:
-            print('Failed to login')
+            return False
+
+    def getUserInfo(self):
+        url = self.url + 'api/auth/profile'
+        resp = requests.get(url, headers=self.token_header)
+        if resp.status_code == 200:
+            json = resp.json()
+            self.user = json['data']['username']
+            return True
+        else:
+            return False
+
 
     def add_workout(self, gpx, sport_id=0, title=None, attributes=None):
-        url = self.link + 'api/workouts'
+        url = self.url + 'api/workouts'
         if attributes is None:
             notes = ''
         else:
@@ -50,7 +63,7 @@ class FitTrackee():
             workout_id = json['data']['workouts'][0]['id']
             if title is not None and title != '':
                 # Rename Workout to set Title
-                url = self.link + "api/workouts/" + workout_id
+                url = self.url + "api/workouts/" + workout_id
                 data = {'title': title}
                 resp = requests.patch(url, headers=self.token_header, json=data)
             return True
@@ -59,7 +72,7 @@ class FitTrackee():
             return False
 
     def get_sports(self):
-        url = self.link + 'api/sports'
+        url = self.url + 'api/sports'
         resp = requests.get(url, headers=self.token_header)
         if resp.status_code == 200:
             json = resp.json()
@@ -67,16 +80,3 @@ class FitTrackee():
             return sports
         else:
             return None
-
-# from fit import FitFile
-
-# # ft = FitTrackee('https://workout.ebrithil.ch/')
-# # ft.login('asd@ebrithil.ch', 'test1234')
-# # print(ft.get_sports())
-
-# f1 = FitFile('/home/jonas/Nextcloud/Fitness/Logs/Joggen/2021-09-05-11-50-47-Jogging-3km.fit')
-# f2 = FitFile('/home/jonas/Nextcloud/Fitness/Logs/Joggen/2021-09-06-11-07-22-Jogging-3km.fit')
-
-# pass
-
-# ft.add_workout(f.getGPX(), 2, "Test Title", f.attributes)
