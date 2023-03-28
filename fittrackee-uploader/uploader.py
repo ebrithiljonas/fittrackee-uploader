@@ -1,7 +1,7 @@
 import sys
 import io
 import folium
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets, QtCore
 
 import fit
 import fittrackee
@@ -27,14 +27,15 @@ class Uploader(QtWidgets.QMainWindow):
         self.options_window = options.Options(self.config)
         self.login_window = login.Login(self.config, self.api)
 
-        if None in [self.config.server_url, self.config.email, self.config.token]:
-            self.login_window.show()
+        if '' in [self.config.server_url, self.config.email, self.config.token]:
+            self.showWindowonCenter(self.login_window)
         else:
             # Try saved token
             self.api.setUrl(self.config.server_url)
             self.api.setToken(self.config.token)
             if not self.api.getUserInfo():
-                self.login_window.show()
+                self.login_window.move(self.rect().center())
+                self.showWindowonCenter(self.login_window)
 
         # TODO If Path is set, load first file
 
@@ -60,8 +61,17 @@ class Uploader(QtWidgets.QMainWindow):
 
         self.ui.webMap.setHtml(data.getvalue().decode())
 
+    def showWindowonCenter(self, window):
+        window.show()
+        #  TODO Figure this Garbage out (atm, issues with multi monitors)
+        # pos = QtCore.QPoint()
+        # pos.setX(int(window.pos().x() + (self.frameGeometry().width() / 2)))
+        # pos.setY(int(window.pos().y() + (self.frameGeometry().height() / 2)))
+        # window.move(pos)
+        window.activateWindow()
+
     def options(self):
-        self.options_window.show()
+        self.showWindowonCenter(self.options_window)
         
 if __name__ == '__main__':
     uploader = Uploader()

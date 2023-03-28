@@ -48,6 +48,7 @@ class Ui_LoginWindow(object):
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_8.addWidget(self.label_3)
         self.tbPassword = QtWidgets.QLineEdit(parent=LoginWindow)
+        self.tbPassword.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.tbPassword.setObjectName("tbPassword")
         self.horizontalLayout_8.addWidget(self.tbPassword)
         self.horizontalLayout_8.setStretch(1, 1)

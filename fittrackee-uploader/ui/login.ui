@@ -85,7 +85,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="tbPassword"/>
+      <widget class="QLineEdit" name="tbPassword">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

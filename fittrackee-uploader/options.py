@@ -19,8 +19,10 @@ class Options(QtWidgets.QWidget):
 
     def setup_callbacks(self):
         self.ui.btCancel.clicked.connect(self.close)
-        self.ui.btCancel.clicked.connect(self.saveConfig)
-        # TODO Setup Callbacks for file openers
+        self.ui.btSave.clicked.connect(self.saveConfig)
+        self.ui.btBrowseFolder.clicked.connect(lambda: self.selectFolder(self.ui.tbFolder))
+        self.ui.btBrowseUploadedFolder.clicked.connect(lambda: self.selectFolder(self.ui.tbUploadedFolder))
+
 
     def saveConfig(self):
         self.configuration.server_url = self.ui.tbServer.text()
@@ -31,4 +33,7 @@ class Options(QtWidgets.QWidget):
         self.configuration.saveConfig()
         self.close()
 
-    # TODO Open File Dialogs
+    def selectFolder(self, textBox):
+        file = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
+        if file != '':
+            textBox.setText(file)

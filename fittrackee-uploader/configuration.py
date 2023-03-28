@@ -5,11 +5,11 @@ from config_path import ConfigPath
 class Configuration:
 
     config = {}
-    server_url = None
-    email = None
-    token = None
-    folder = None
-    uploaded_folder = None
+    server_url = ""
+    email = ""
+    token = ""
+    folder = ""
+    uploaded_folder = ""
     move_after_upload = False
     add_stats = True
 
@@ -18,18 +18,15 @@ class Configuration:
         self.path = os.path.join(conf_path.saveFolderPath(mkdir=True), 'config.json')
 
         if os.path.isfile(self.path):
-            try:
-                with open(self.path) as conf_file:
-                    self.config = json.load(conf_file)
-                    self.server_url = self.config['server_url']
-                    self.email = self.config['email']
-                    self.token = self.config['token']
-                    self.folder = self.config['folder']
-                    self.uploaded_folder = self.config['uploaded_folder']
-                    self.move_after_upload = self.config['move_after_upload']
-                    self.add_stats = self.config['add_stats']
-            except:
-                self.config = None
+            with open(self.path) as conf_file:
+                self.config = json.load(conf_file)
+                self.server_url = self.config['server_url']
+                self.email = self.config['email']
+                self.token = self.config['token']
+                self.folder = self.config['folder']
+                self.uploaded_folder = self.config['uploaded_folder']
+                self.move_after_upload = self.config['move_after_upload']
+                self.add_stats = self.config['add_stats']
 
     def saveConfig(self):
         self.config['server_url'] = self.server_url
