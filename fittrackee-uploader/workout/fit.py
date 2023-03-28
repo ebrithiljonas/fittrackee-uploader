@@ -1,5 +1,5 @@
 import fitdecode
-import workout
+import workout.workout as workout
 
 class FitFile:
 
@@ -52,13 +52,23 @@ class FitFile:
             if record.has_position():
                 point = workout.Point(record.timestamp, (record.getLat(), record.getLong()), record.altitude, record.speed, record.heart_rate, record.cadence, record.speed)
                 points.append(point)
-        return workout.Workout(points)
+        return workout.Workout(points, self.path, self.getStats())
 
-    def get_sport(self):
+    def getSport(self):
         sport = self.attributes['sport']
         if sport == 'cycling': return 1
         elif sport == 'running': return 5
         else: return None
+
+    def getStats(self):
+        if self.attributes is None:
+            stats = ''
+        else:
+            stats = f'Average Heart Rate: {self.attributes["avg_heart_rate"]} Bpm \n'
+            stats += f'Maximum Heart Rate: {self.attributes["max_heart_rate"]} Bpm \n'
+            stats += f'Calories: {self.attributes["calories"]} kcal \n'
+            stats += f'Sport Type: {self.attributes["custom_sport"]}'
+        return stats
 
 class Record:
 

@@ -46,15 +46,8 @@ class FitTrackee():
             return False
 
 
-    def add_workout(self, gpx, sport_id=0, title=None, attributes=None):
+    def add_workout(self, gpx, sport_id=0, title=None, notes=''):
         url = self.url + 'api/workouts'
-        if attributes is None:
-            notes = ''
-        else:
-            notes = f'Average Heart Rate: {attributes["avg_heart_rate"]} Bpm \n'
-            notes += f'Maximum Heart Rate: {attributes["max_heart_rate"]} Bpm \n'
-            notes += f'Calories: {attributes["calories"]} kcal \n'
-            notes += f'Sport Type: {attributes["custom_sport"]}'
         data = {'sport_id': sport_id, 'notes': notes}
         file = {'file': ('workout.gpx', gpx), 'data': (None, str(data).replace("'",'"'))}
         resp = requests.post(url, headers=self.token_header, files = file)

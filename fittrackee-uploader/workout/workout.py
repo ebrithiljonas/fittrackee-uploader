@@ -2,8 +2,10 @@ import gpxpy
 
 class Workout:
 
-    def __init__(self, points):
+    def __init__(self, points, path, stats = ''):
         self.points = points
+        self.stats = stats
+        self.path = path
 
     def getExtent(self):
         min_lat = self.points[0].getLat()
@@ -49,10 +51,15 @@ class Workout:
         gpx_track.segments.append(gpx_segment)
         # Create points:
         for point in self.points:
-            if point.has_position():
-                point = gpxpy.gpx.GPXTrackPoint(point.getLat(), point.getLong(), round(point.altitude, 3), point.timestamp, speed=point.speed)
-                gpx_segment.points.append(point)
-        return gpxpy.gpx.to_xml(version='1.0')
+            point = gpxpy.gpx.GPXTrackPoint(point.getLat(), point.getLong(), round(point.altitude, 3), point.timestamp, speed=point.speed)
+            gpx_segment.points.append(point)
+        return gpx.to_xml(version='1.0')
+
+    def getStats(self):
+        return self.stats
+
+    def getFilePath(self):
+        return self.path
 
 class Point:
 
