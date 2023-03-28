@@ -15,6 +15,7 @@ class Options(QtWidgets.QWidget):
         self.ui.tbFolder.setText(self.configuration.folder)
         self.ui.tbUploadedFolder.setText(self.configuration.uploaded_folder)
         self.ui.cbMoveFiles.setChecked(self.configuration.move_after_upload)
+        self.ui.cbAddInfoFile.setChecked(self.configuration.add_info_to_file_name)
         self.ui.cbAddStats.setChecked(self.configuration.add_stats)
 
     def setup_callbacks(self):
@@ -29,6 +30,7 @@ class Options(QtWidgets.QWidget):
         self.configuration.folder = self.ui.tbFolder.text()
         self.configuration.uploaded_folder = self.ui.tbUploadedFolder.text()
         self.configuration.move_after_upload = self.ui.cbMoveFiles.isChecked()
+        self.configuration.add_info_to_file_name = self.ui.cbAddInfoFile.isChecked()
         self.configuration.add_stats = self.ui.cbAddStats.isChecked()
         self.configuration.saveConfig()
         self.close()

@@ -11,6 +11,7 @@ class Configuration:
     folder = ""
     uploaded_folder = ""
     move_after_upload = False
+    add_info_to_file_name = False
     add_stats = True
 
     def __init__(self):
@@ -26,6 +27,7 @@ class Configuration:
                 self.folder = self.config['folder']
                 self.uploaded_folder = self.config['uploaded_folder']
                 self.move_after_upload = self.config['move_after_upload']
+                self.add_info_to_file_name = self.config['add_info_to_file_name']
                 self.add_stats = self.config['add_stats']
 
     def saveConfig(self):
@@ -35,6 +37,7 @@ class Configuration:
         self.config['folder'] = self.folder
         self.config['uploaded_folder'] = self.uploaded_folder
         self.config['move_after_upload'] = self.move_after_upload
+        self.config['add_info_to_file_name'] = self.add_info_to_file_name
         self.config['add_stats'] = self.add_stats
 
         json_conf = json.dumps(self.config, indent=4)

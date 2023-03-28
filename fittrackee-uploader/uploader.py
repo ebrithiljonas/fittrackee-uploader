@@ -55,7 +55,7 @@ class Uploader(QtWidgets.QMainWindow):
     def setup_callbacks(self):
         self.ui.actionQuit.triggered.connect(sys.exit)
         self.ui.actionOptions.triggered.connect(self.options)
-        self.ui.actionReload.triggered.connect(self.loadFolder)
+        self.ui.actionReload.triggered.connect(self.loadFolder) # BUG Doesn't reload map
         # TODO callback for About Action
         self.ui.btUpload.clicked.connect(self.upload)
 
@@ -100,23 +100,37 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui.webMap.setHtml(data.getvalue().decode())
 
     def loadSports(self):
-        sports = self.api.get_sports()
-        for sport in sports:
+        self.sports = self.api.get_sports(True)
+        for sport in self.sports:
                 self.ui.cbSportType.addItem(sport['label'])
+
+    def getSportID(self, sport_name):
+        if len(self.sports) > 0:
+            for sport in self.sports:
+                if sport['label'] == sport_name:
+                    return sport['id']
+        return -1
 
     def upload(self):
         gpx = self.current_workout.getGPX()
-        sport_id = self.ui.cbSportType.currentIndex() + 1
+        # sport_id = self.ui.cbSportType.currentIndex() + 1
+        sport_id = self.getSportID(self.ui.cbSportType.currentText())
         # BUG if title contains Umlaut it wont set it
         title = self.ui.tbTitle.text()
-        if title == '':
-            title = None
         notes = self.current_workout.getStats()
         if self.api.add_workout(gpx, sport_id, title, notes):
             self.ui.tbTitle.setText('')
             if self.config.move_after_upload:
                 if os.path.isdir(self.config.uploaded_folder):
-                    new_file_path = os.path.join(self.config.uploaded_folder, os.path.basename(self.current_workout.getFilePath()))
+                    file_name = os.path.basename(self.current_workout.getFilePath())
+                    if self.config.add_info_to_file_name:
+                        sport_name = self.ui.cbSportType.currentText()
+                        sport_name = sport_name.split('(')[0]
+                        sport_name = sport_name.lower().replace(' ', '')
+                        new_file_name = f'{os.path.splitext(file_name)[0]}_{sport_name}_{title}{os.path.splitext(file_name)[1]}'
+                    else:
+                        new_file_name = file_name
+                    new_file_path = os.path.join(self.config.uploaded_folder, new_file_name)
                     os.rename(self.current_workout.getFilePath(), new_file_path)
             self.loadNextFile()
         else:

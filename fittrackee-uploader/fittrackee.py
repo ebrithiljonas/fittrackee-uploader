@@ -64,12 +64,18 @@ class FitTrackee():
             print(resp.json())
             return False
 
-    def get_sports(self):
+    def get_sports(self, only_active=False):
         url = self.url + 'api/sports'
         resp = requests.get(url, headers=self.token_header)
         if resp.status_code == 200:
             json = resp.json()
-            sports = json['data']['sports']
+            if only_active:
+                sports = []
+                for sport in json['data']['sports']:
+                    if sport['is_active_for_user']:
+                        sports.append(sport)
+            else:
+                sports = json['data']['sports']
             return sports
         else:
             return None
