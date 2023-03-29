@@ -1,4 +1,5 @@
 import gpxpy
+import math
 
 class Workout:
 
@@ -60,6 +61,35 @@ class Workout:
 
     def getFilePath(self):
         return self.path
+
+    def getDate(self):
+        return self.points[0].timestamp #.strftime("%d %b, %Y")
+
+    def getTime(self):
+        return self.points[-1].timestamp - self.points[0].timestamp
+
+    def getDistance(self):
+        distance = 0.0
+        for i in range(len(self.points) - 1):
+            distance += self.distance(self.points[i].position, self.points[i+1].position)
+        return distance
+
+    def distance(self, origin, destination):
+        lat1, lon1 = origin
+        lat2, lon2 = destination
+        radius = 6371  # km
+
+        dlat = math.radians(lat2 - lat1)
+        dlon = math.radians(lon2 - lon1)
+        a = (math.sin(dlat / 2) * math.sin(dlat / 2) +
+            math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+            math.sin(dlon / 2) * math.sin(dlon / 2))
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        d = radius * c
+
+        return d
+
+
 
 class Point:
 

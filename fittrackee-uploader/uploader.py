@@ -75,13 +75,18 @@ class Uploader(QtWidgets.QMainWindow):
             self.current_workout = self.loader.loadFile(path)
             if not self.current_workout is None:
                 self.setMap(self.current_workout)
+                self.ui.statusbar.showMessage(path)
+                stats = f'{self.current_workout.getDate().strftime("%d %b, %Y")}   {self.current_workout.getTime()}   {self.current_workout.getDistance():.2f} km'
+                self.ui.labelStats.setText(stats)
 
     def loadNextFile(self):
         if len(self.files) > 0:
             file_path = self.files.pop(0)
             self.loadFile(file_path)
         else:
-            # TODO Empty map to show that there are no more files left
+            self.ui.webMap.setHtml('')
+            self.ui.statusbar.clearMessage()
+            self.ui.labelStats.setText('')
             pass
 
     def setMap(self, wo):
@@ -132,8 +137,12 @@ class Uploader(QtWidgets.QMainWindow):
                     os.rename(self.current_workout.getFilePath(), new_file_path)
             self.loadNextFile()
         else:
-            # TODO Show Error
-            pass
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setText("Upload Failed")
+            msg.setWindowTitle("Error")
+            msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            msg.exec()
 
     def showWindowonCenter(self, window):
         window.show()
