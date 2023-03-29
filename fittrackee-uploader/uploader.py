@@ -2,7 +2,7 @@ import sys
 import io
 import os
 import folium
-from PyQt6 import QtWidgets, QtCore
+from PyQt6 import QtWidgets
 
 import fittrackee
 from ui.main import Ui_MainWindow
@@ -113,9 +113,7 @@ class Uploader(QtWidgets.QMainWindow):
 
     def upload(self):
         gpx = self.current_workout.getGPX()
-        # sport_id = self.ui.cbSportType.currentIndex() + 1
         sport_id = self.getSportID(self.ui.cbSportType.currentText())
-        # BUG if title contains Umlaut it wont set it
         title = self.ui.tbTitle.text()
         notes = self.current_workout.getStats()
         if self.api.add_workout(gpx, sport_id, title, notes):

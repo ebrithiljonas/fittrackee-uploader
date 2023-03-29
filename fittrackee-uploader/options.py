@@ -10,7 +10,10 @@ class Options(QtWidgets.QWidget):
         self.setup_callbacks()
         
         self.configuration = configuration
+        self.loadConfig()
 
+
+    def loadConfig(self):
         self.ui.tbServer.setText(self.configuration.server_url)
         self.ui.tbFolder.setText(self.configuration.folder)
         self.ui.tbUploadedFolder.setText(self.configuration.uploaded_folder)

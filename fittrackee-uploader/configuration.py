@@ -21,14 +21,38 @@ class Configuration:
         if os.path.isfile(self.path):
             with open(self.path) as conf_file:
                 self.config = json.load(conf_file)
-                self.server_url = self.config['server_url']
-                self.email = self.config['email']
-                self.token = self.config['token']
-                self.folder = self.config['folder']
-                self.uploaded_folder = self.config['uploaded_folder']
-                self.move_after_upload = self.config['move_after_upload']
-                self.add_info_to_file_name = self.config['add_info_to_file_name']
-                self.add_stats = self.config['add_stats']
+                try:
+                    self.server_url = self.config['server_url']
+                except:
+                    pass
+                try:
+                    self.email = self.config['email']
+                except:
+                    pass
+                try:
+                    self.token = self.config['token']
+                except:
+                    pass
+                try:
+                    self.folder = self.config['folder']
+                except:
+                    pass
+                try:
+                    self.uploaded_folder = self.config['uploaded_folder']
+                except:
+                    pass
+                try:
+                    self.move_after_upload = self.config['move_after_upload']
+                except:
+                    pass
+                try:
+                    self.add_info_to_file_name = self.config['add_info_to_file_name']
+                except:
+                    pass
+                try:
+                    self.add_stats = self.config['add_stats']  
+                except:
+                    pass
 
     def saveConfig(self):
         self.config['server_url'] = self.server_url
