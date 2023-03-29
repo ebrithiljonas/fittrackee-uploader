@@ -1,7 +1,7 @@
 import fitdecode
 import workout.workout as workout
 
-class FitFile:
+class FitFile(workout.Workout):
 
     def __init__(self, path):
         # Read Fit File
@@ -45,14 +45,13 @@ class FitFile:
         # Sort Records
         if self.records:
             self.records = sorted(self.records, key=lambda x: x.timestamp)
-
-    def getWorkout(self):
         points = []
         for record in self.records:
             if record.has_position():
                 point = workout.Point(record.timestamp, (record.getLat(), record.getLong()), record.altitude, record.speed, record.heart_rate, record.cadence, record.speed)
                 points.append(point)
-        return workout.Workout(points, self.path, self.getStats())
+        
+        super().__init__(points, self.path, self.getStats())
 
     def getSport(self):
         sport = self.attributes['sport']
@@ -104,6 +103,3 @@ class Record:
 
     def getLong(self):
         return round(float(self.position_long * 180) / float(2**31), 9)
-
-    def get_time():
-        return timestamp
