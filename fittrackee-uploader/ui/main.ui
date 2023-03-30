@@ -36,6 +36,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="labelLoginStats">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -65,6 +72,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="btUpload">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Upload</string>
         </property>
@@ -95,6 +105,7 @@
      <string>Settings</string>
     </property>
     <addaction name="actionOptions"/>
+    <addaction name="actionLogout"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -132,6 +143,11 @@
   <action name="actionReload">
    <property name="text">
     <string>Reload</string>
+   </property>
+  </action>
+  <action name="actionLogout">
+   <property name="text">
+    <string>Logout</string>
    </property>
   </action>
  </widget>

@@ -63,7 +63,7 @@ class Workout:
         return self.path
 
     def getDate(self):
-        return self.points[0].timestamp #.strftime("%d %b, %Y")
+        return self.points[0].timestamp
 
     def getTime(self):
         return self.points[-1].timestamp - self.points[0].timestamp

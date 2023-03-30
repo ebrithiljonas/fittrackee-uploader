@@ -53,11 +53,22 @@ class Uploader(QtWidgets.QMainWindow):
                 self.showWindowonCenter(self.login_window)
             else:
                 self.loadSports()
+                self.ui.labelLoginStats.setText(f'Logged in as {self.api.user} on {self.api.url}')
+                self.ui.btUpload.setEnabled(True)
+
+    def logout(self):
+        self.ui.btUpload.setEnabled(False)
+        self.config.token = ''
+        self.config.saveConfig()
+        self.ui.labelLoginStats.setText('')
+        self.ui.cbSportType.clear()
+        self.login()
 
     def setup_callbacks(self):
         self.ui.actionQuit.triggered.connect(sys.exit)
-        self.ui.actionOptions.triggered.connect(self.options)
         self.ui.actionReload.triggered.connect(self.loadFolder)
+        self.ui.actionOptions.triggered.connect(self.options)
+        self.ui.actionLogout.triggered.connect(self.logout)
         self.ui.actionAbout.triggered.connect(self.about)
         self.ui.btUpload.clicked.connect(self.upload)
 
@@ -111,6 +122,7 @@ class Uploader(QtWidgets.QMainWindow):
 
     def loadSports(self):
         self.sports = self.api.get_sports(True)
+        self.ui.cbSportType.clear()
         for sport in self.sports:
                 self.ui.cbSportType.addItem(sport['label'])
 

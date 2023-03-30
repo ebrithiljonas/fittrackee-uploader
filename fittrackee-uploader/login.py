@@ -18,7 +18,11 @@ class Login(QtWidgets.QWidget):
 
     def setup_callbacks(self):
         self.ui.btLogin.clicked.connect(self.login)
-        self.ui.btCancel.clicked.connect(self.close)
+        self.ui.btCancel.clicked.connect(self.exit)
+
+    def exit(self):
+        self.close()
+        self.main_window.close()
 
     def login(self):
         url = self.ui.tbServer.text()
@@ -31,4 +35,5 @@ class Login(QtWidgets.QWidget):
                 self.configuration.token = self.api.token
                 self.configuration.saveConfig()
                 self.close()
+                self.ui.tbPassword.setText('')
                 self.main_window.login()
