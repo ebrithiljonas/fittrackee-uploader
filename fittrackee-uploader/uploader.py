@@ -27,21 +27,10 @@ class Uploader(QtWidgets.QMainWindow):
 
         self.api = fittrackee.FitTrackee()
 
-        self.options_window = options.Options(self.config)
-        self.login_window = login.Login(self.config, self.api)
+        self.options_window = options.Options(self, self.config)
+        self.login_window = login.Login(self, self.config, self.api)
 
-        # TODO Load Sports to Combobox after the login form has closed and we are logged in
-
-        if '' in [self.config.server_url, self.config.email, self.config.token]:
-            self.showWindowonCenter(self.login_window)
-        else:
-            # Try saved token
-            self.api.setUrl(self.config.server_url)
-            self.api.setToken(self.config.token)
-            if not self.api.getUserInfo():
-                self.showWindowonCenter(self.login_window)
-            else:
-                self.loadSports()
+        self.login()
 
         self.files = []
         self.loader = loader.Loader()
@@ -53,10 +42,22 @@ class Uploader(QtWidgets.QMainWindow):
         self.show()
         sys.exit(app.exec())
 
+    def login(self):
+        if '' in [self.config.server_url, self.config.email, self.config.token]:
+            self.showWindowonCenter(self.login_window)
+        else:
+            # Try saved token
+            self.api.setUrl(self.config.server_url)
+            self.api.setToken(self.config.token)
+            if not self.api.getUserInfo():
+                self.showWindowonCenter(self.login_window)
+            else:
+                self.loadSports()
+
     def setup_callbacks(self):
         self.ui.actionQuit.triggered.connect(sys.exit)
         self.ui.actionOptions.triggered.connect(self.options)
-        self.ui.actionReload.triggered.connect(self.loadFolder) # BUG Doesn't reload map
+        self.ui.actionReload.triggered.connect(self.loadFolder)
         self.ui.actionAbout.triggered.connect(self.about)
         self.ui.btUpload.clicked.connect(self.upload)
 
@@ -64,7 +65,7 @@ class Uploader(QtWidgets.QMainWindow):
         webbrowser.open('https://github.com/ebrithiljonas/fittrackee-uploader')
 
     def loadFolder(self, path=None):
-        if path is None:
+        if path is None or path == False:
             path = self.config.folder
         if os.path.isdir(path):
             self.files.clear()

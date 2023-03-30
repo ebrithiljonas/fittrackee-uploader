@@ -3,12 +3,13 @@ from ui.login import Ui_LoginWindow
 
 class Login(QtWidgets.QWidget):
 
-    def __init__(self, configuration, api):
+    def __init__(self, main_window, configuration, api):
         super().__init__()
         self.ui = Ui_LoginWindow()
         self.ui.setupUi(self)
         self.setup_callbacks()
 
+        self.main_window = main_window
         self.configuration = configuration
         self.api = api
 
@@ -30,3 +31,4 @@ class Login(QtWidgets.QWidget):
                 self.configuration.token = self.api.token
                 self.configuration.saveConfig()
                 self.close()
+                self.main_window.login()

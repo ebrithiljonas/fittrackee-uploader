@@ -3,12 +3,13 @@ from ui.options import Ui_OptionsWindow
 
 class Options(QtWidgets.QWidget):
 
-    def __init__(self, configuration):
+    def __init__(self, main_window, configuration):
         super().__init__()
         self.ui = Ui_OptionsWindow()
         self.ui.setupUi(self)
         self.setup_callbacks()
         
+        self.main_window = main_window
         self.configuration = configuration
         self.loadConfig()
 
@@ -37,6 +38,7 @@ class Options(QtWidgets.QWidget):
         self.configuration.add_stats = self.ui.cbAddStats.isChecked()
         self.configuration.saveConfig()
         self.close()
+        self.main_window.loadFolder()
 
     def selectFolder(self, textBox):
         file = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
