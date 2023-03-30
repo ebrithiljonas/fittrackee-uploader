@@ -16,7 +16,7 @@
             "name": "Python: Main",
             "type": "python",
             "request": "launch",
-            "program": "fittrackee-uploader/uploader.py",
+            "program": "fittrackee-uploader",
             "console": "integratedTerminal",
             "justMyCode": true
         }

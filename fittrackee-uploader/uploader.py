@@ -2,6 +2,7 @@ import sys
 import io
 import os
 import folium
+import webbrowser
 from PyQt6 import QtWidgets
 
 import fittrackee
@@ -56,8 +57,11 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui.actionQuit.triggered.connect(sys.exit)
         self.ui.actionOptions.triggered.connect(self.options)
         self.ui.actionReload.triggered.connect(self.loadFolder) # BUG Doesn't reload map
-        # TODO callback for About Action
+        self.ui.actionAbout.triggered.connect(self.about)
         self.ui.btUpload.clicked.connect(self.upload)
+
+    def about(self):
+        webbrowser.open('https://github.com/ebrithiljonas/fittrackee-uploader')
 
     def loadFolder(self, path=None):
         if path is None:
