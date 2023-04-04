@@ -12,6 +12,7 @@ import login
 import configuration
 import workout.workout as workout
 import workout.loader as loader
+import templates
 
 class Uploader(QtWidgets.QMainWindow):
 
@@ -100,25 +101,34 @@ class Uploader(QtWidgets.QMainWindow):
             file_path = self.files.pop(0)
             self.loadFile(file_path)
         else:
-            self.ui.webMap.setHtml('')
+            self.setMap(None)
             self.ui.statusbar.clearMessage()
             self.ui.labelStats.setText('')
             pass
 
     def setMap(self, wo):
-        m = folium.Map(
-        	tiles='OpenStreetMap'
-        )
 
-        m.fit_bounds(wo.getExtent())
+        if wo is None:
+            self.ui.btUpload.setEnabled(False)
+            self.ui.webMap.setHtml(templates.page_no_more_files)
+        elif len(wo.points) == 0:
+            self.ui.btUpload.setEnabled(True)
+            self.ui.webMap.setHtml(templates.page_no_gps_records)
+        else:
+            self.ui.btUpload.setEnabled(True)
+            m = folium.Map(
+                tiles='OpenStreetMap'
+            )
 
-        path = folium.PolyLine(wo.getPath(), color="#0000FF")
-        path.add_to(m)
-        
-        data = io.BytesIO()
-        m.save(data, close_file=False)
+            m.fit_bounds(wo.getExtent())
 
-        self.ui.webMap.setHtml(data.getvalue().decode())
+            path = folium.PolyLine(wo.getPath(), color="#0000FF")
+            path.add_to(m)
+            
+            data = io.BytesIO()
+            m.save(data, close_file=False)
+
+            self.ui.webMap.setHtml(data.getvalue().decode())
 
     def loadSports(self):
         self.sports = self.api.get_sports(True)

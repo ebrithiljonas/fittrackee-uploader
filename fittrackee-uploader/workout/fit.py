@@ -1,7 +1,12 @@
 import fitdecode
+import datetime
 import workout.workout as workout
 
 class FitFile(workout.Workout):
+
+    time = None
+    distance = None
+    date = None
 
     def __init__(self, path):
         # Read Fit File
@@ -20,11 +25,11 @@ class FitFile(workout.Workout):
                 # Get Properties from Session
                 elif frame.name == 'session':
                     if frame.has_field('timestamp'):
-                        self.attributes['timestamp'] = frame.get_value('timestamp')
+                        self.date = frame.get_value('timestamp')
                     if frame.has_field('total_distance'):
-                        self.attributes['total_distance'] = frame.get_value('total_distance')
+                        self.distance = frame.get_value('total_distance') / 1000
                     if frame.has_field('total_elapsed_time'):
-                        self.attributes['total_time'] = frame.get_value('total_elapsed_time')
+                        self.time = datetime.timedelta(seconds=int(frame.get_value('total_elapsed_time')))
                     if frame.has_field('enhanced_avg_speed'):
                         self.attributes['avg_speed'] = frame.get_value('enhanced_avg_speed')
                     if frame.has_field('enhanced_max_speed'):
@@ -51,7 +56,7 @@ class FitFile(workout.Workout):
                 point = workout.Point(record.timestamp, (record.getLat(), record.getLong()), record.altitude, record.speed, record.heart_rate, record.cadence, record.speed)
                 points.append(point)
         
-        super().__init__(points, self.path, self.getStats())
+        super().__init__(points, self.path, self.getStats(), self.date, self.time, self.distance)
 
     def getSport(self):
         sport = self.attributes['sport']

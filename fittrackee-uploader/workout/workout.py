@@ -3,10 +3,13 @@ import math
 
 class Workout:
 
-    def __init__(self, points, path, stats = ''):
+    def __init__(self, points, path, stats = '', date=None, time=None, distance=None):
         self.points = points
         self.stats = stats
         self.path = path
+        self.date = date
+        self.time = time
+        self.distance = distance
 
     def getExtent(self):
         min_lat = self.points[0].getLat()
@@ -63,16 +66,25 @@ class Workout:
         return self.path
 
     def getDate(self):
-        return self.points[0].timestamp
+        if self.date is None:
+            return self.points[0].timestamp
+        else:
+            return self.date
 
     def getTime(self):
-        return self.points[-1].timestamp - self.points[0].timestamp
+        if self.time is None:
+            return self.points[-1].timestamp - self.points[0].timestamp
+        else:
+            return self.time
 
     def getDistance(self):
-        distance = 0.0
-        for i in range(len(self.points) - 1):
-            distance += self.distance(self.points[i].position, self.points[i+1].position)
-        return distance
+        if self.distance is None:
+            distance = 0.0
+            for i in range(len(self.points) - 1):
+                distance += self.distance(self.points[i].position, self.points[i+1].position)
+            return distance
+        else:
+            return self.distance
 
     def distance(self, origin, destination):
         lat1, lon1 = origin
