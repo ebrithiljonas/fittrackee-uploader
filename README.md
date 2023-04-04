@@ -45,5 +45,4 @@ python fittrackee-uploader
 
 ## Current limitations
 
-* Files must contain GPS data
 * Multi-sport files are not supported
