@@ -64,6 +64,26 @@ class FitTrackee():
             print(resp.json())
             return False
 
+    def add_workout_no_gpx(self, date, duration, distance, sport_id=0, title=None, notes='', ascent=None, descent=None):
+        url = self.url + 'api/workouts/no_gpx'
+        data = {
+            'sport_id': sport_id,
+            'workout_date': date,
+            'duration': duration,
+            'distance': distance,
+            'ascent': ascent,
+            'descent': descent,
+            'notes': notes,
+            'title': title
+        }
+        resp = requests.post(url, headers=self.token_header, json=data)
+        if resp.status_code == 201:
+            return True
+        else:
+            print(resp.json())
+            return False
+
+
     def get_sports(self, only_active=False):
         url = self.url + 'api/sports'
         resp = requests.get(url, headers=self.token_header)

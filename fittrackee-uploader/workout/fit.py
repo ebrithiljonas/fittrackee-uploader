@@ -7,6 +7,8 @@ class FitFile(workout.Workout):
     time = None
     distance = None
     date = None
+    ascent = None
+    descent = None
 
     def __init__(self, path):
         # Read Fit File
@@ -30,14 +32,16 @@ class FitFile(workout.Workout):
                         self.distance = frame.get_value('total_distance') / 1000
                     if frame.has_field('total_elapsed_time'):
                         self.time = datetime.timedelta(seconds=int(frame.get_value('total_elapsed_time')))
+                    if frame.has_field('total_ascent'):
+                        self.ascent = frame.get_value('total_ascent')
+                    if frame.has_field('total_ascent'):
+                        self.descent = frame.get_value('total_descent')
                     if frame.has_field('enhanced_avg_speed'):
                         self.attributes['avg_speed'] = frame.get_value('enhanced_avg_speed')
                     if frame.has_field('enhanced_max_speed'):
                         self.attributes['max_speed'] = frame.get_value('enhanced_max_speed')
                     if frame.has_field('total_calories'):
                         self.attributes['calories'] = frame.get_value('total_calories')
-                    if frame.has_field('total_ascent'):
-                        self.attributes['ascent'] = frame.get_value('total_ascent')
                     if frame.has_field('max_heart_rate'):
                         self.attributes['max_heart_rate'] = frame.get_value('max_heart_rate')
                     if frame.has_field('avg_heart_rate'):
@@ -56,7 +60,7 @@ class FitFile(workout.Workout):
                 point = workout.Point(record.timestamp, (record.getLat(), record.getLong()), record.altitude, record.speed, record.heart_rate, record.cadence, record.speed)
                 points.append(point)
         
-        super().__init__(points, self.path, self.getStats(), self.date, self.time, self.distance)
+        super().__init__(points, self.path, self.getStats(), self.date, self.time, self.distance, self.ascent, self.descent)
 
     def getSport(self):
         sport = self.attributes['sport']

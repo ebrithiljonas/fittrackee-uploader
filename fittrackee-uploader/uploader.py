@@ -4,6 +4,7 @@ import os
 import folium
 import webbrowser
 from PyQt6 import QtWidgets
+import datetime
 
 import fittrackee
 from ui.main import Ui_MainWindow
@@ -144,11 +145,27 @@ class Uploader(QtWidgets.QMainWindow):
         return -1
 
     def upload(self):
-        gpx = self.current_workout.getGPX()
+
+        result = None
         sport_id = self.getSportID(self.ui.cbSportType.currentText())
         title = self.ui.tbTitle.text()
-        notes = self.current_workout.getStats()
-        if self.api.add_workout(gpx, sport_id, title, notes):
+        if self.config.add_stats:
+            notes = self.current_workout.getStats()
+        else:
+            notes = ''
+
+        if len(self.current_workout.points) == 0:
+            date = self.current_workout.getDate().strftime('%Y-%m-%d %H:%M')
+            duration = self.current_workout.getTime().total_seconds()
+            distance = self.current_workout.getDistance()
+            ascent = self.current_workout.ascent
+            descent = self.current_workout.descent
+            result = self.api.add_workout_no_gpx(date, duration, distance, sport_id, title, notes, ascent, descent) 
+        else:
+            gpx = self.current_workout.getGPX()
+            result = self.api.add_workout(gpx, sport_id, title, notes)
+
+        if result:
             self.ui.tbTitle.setText('')
             if self.config.move_after_upload:
                 if os.path.isdir(self.config.uploaded_folder):

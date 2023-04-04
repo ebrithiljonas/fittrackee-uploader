@@ -3,13 +3,15 @@ import math
 
 class Workout:
 
-    def __init__(self, points, path, stats = '', date=None, time=None, distance=None):
+    def __init__(self, points, path, stats = '', date=None, time=None, distance=None, ascent=None, descent=None):
         self.points = points
         self.stats = stats
         self.path = path
         self.date = date
         self.time = time
         self.distance = distance
+        self.ascent = ascent
+        self.descent = descent
 
     def getExtent(self):
         min_lat = self.points[0].getLat()
