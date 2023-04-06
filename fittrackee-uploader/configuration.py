@@ -13,6 +13,7 @@ class Configuration:
     move_after_upload = False
     add_info_to_file_name = False
     add_stats = True
+    auto_skip = False
 
     def __init__(self):
         conf_path = ConfigPath( 'FitTrackee_Uploader', 'ebrithiljonas', '.json' )
@@ -53,6 +54,10 @@ class Configuration:
                     self.add_stats = self.config['add_stats']  
                 except:
                     pass
+                try:
+                    self.auto_skip = self.config['auto_skip']  
+                except:
+                    pass
 
     def saveConfig(self):
         self.config['server_url'] = self.server_url
@@ -63,6 +68,7 @@ class Configuration:
         self.config['move_after_upload'] = self.move_after_upload
         self.config['add_info_to_file_name'] = self.add_info_to_file_name
         self.config['add_stats'] = self.add_stats
+        self.config['auto_skip'] = self.auto_skip
 
         json_conf = json.dumps(self.config, indent=4)
         with open(self.path, "w") as outfile:

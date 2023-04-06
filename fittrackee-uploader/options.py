@@ -21,6 +21,7 @@ class Options(QtWidgets.QWidget):
         self.ui.cbMoveFiles.setChecked(self.configuration.move_after_upload)
         self.ui.cbAddInfoFile.setChecked(self.configuration.add_info_to_file_name)
         self.ui.cbAddStats.setChecked(self.configuration.add_stats)
+        self.ui.cbAutoSkip.setChecked(self.configuration.auto_skip)
 
     def setup_callbacks(self):
         self.ui.btCancel.clicked.connect(self.close)
@@ -30,15 +31,17 @@ class Options(QtWidgets.QWidget):
 
 
     def saveConfig(self):
+        if self.configuration.folder != self.ui.tbFolder.text():
+            self.main_window.loadFolder()
         self.configuration.server_url = self.ui.tbServer.text()
         self.configuration.folder = self.ui.tbFolder.text()
         self.configuration.uploaded_folder = self.ui.tbUploadedFolder.text()
         self.configuration.move_after_upload = self.ui.cbMoveFiles.isChecked()
         self.configuration.add_info_to_file_name = self.ui.cbAddInfoFile.isChecked()
         self.configuration.add_stats = self.ui.cbAddStats.isChecked()
+        self.configuration.auto_skip = self.ui.cbAutoSkip.isChecked()
         self.configuration.saveConfig()
         self.close()
-        self.main_window.loadFolder()
 
     def selectFolder(self, textBox):
         file = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))

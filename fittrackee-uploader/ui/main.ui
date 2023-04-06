@@ -46,7 +46,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,3,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,3,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
@@ -71,6 +71,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="btSkip">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Skip</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btUpload">
         <property name="enabled">
          <bool>false</bool>
@@ -90,7 +100,7 @@
      <x>0</x>
      <y>0</y>
      <width>999</width>
-     <height>28</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

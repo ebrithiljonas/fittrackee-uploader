@@ -23,3 +23,16 @@ page_no_more_files = '''
    </body>	
 </html>
 '''
+
+page_failed_to_load = '''
+<!DOCTYPE html>
+<html>
+   <head>
+   </head>	
+   <body>
+      <h1 style="text-align: center; padding-top: 10%; font-family: Helvetica, sans-serif;">
+        Failed to load file
+      </h1>
+   </body>	
+</html>
+'''

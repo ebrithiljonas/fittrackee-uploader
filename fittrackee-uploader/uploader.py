@@ -73,6 +73,7 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui.actionLogout.triggered.connect(self.logout)
         self.ui.actionAbout.triggered.connect(self.about)
         self.ui.btUpload.clicked.connect(self.upload)
+        self.ui.btSkip.clicked.connect(self.skipFile)
 
     def about(self):
         webbrowser.open('https://github.com/ebrithiljonas/fittrackee-uploader')
@@ -90,10 +91,19 @@ class Uploader(QtWidgets.QMainWindow):
 
     def loadFile(self, path):
         if os.path.isfile(path):
-            self.current_workout = self.loader.loadFile(path)
+            try:
+                self.current_workout = self.loader.loadFile(path)
+            except:
+                self.current_workout = None
+                self.ui.labelStats.setText('')
+                self.ui.btUpload.setEnabled(False)
+                if self.config.auto_skip:
+                    self.skipFile()
+                else:
+                    self.ui.webMap.setHtml(templates.page_failed_to_load)
+            self.ui.statusbar.showMessage(path)
             if not self.current_workout is None:
                 self.setMap(self.current_workout)
-                self.ui.statusbar.showMessage(path)
                 stats = f'{self.current_workout.getDate().strftime("%d %b, %Y")}   {self.current_workout.getTime()}   {self.current_workout.getDistance():.2f} km'
                 self.ui.labelStats.setText(stats)
 
@@ -187,6 +197,9 @@ class Uploader(QtWidgets.QMainWindow):
             msg.setWindowTitle("Error")
             msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
             msg.exec()
+
+    def skipFile(self):
+        self.loadNextFile()
 
     def showWindowonCenter(self, window):
         window.show()
