@@ -3,7 +3,7 @@ import io
 import os
 import folium
 import webbrowser
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets, QtCore
 import datetime
 
 import fittrackee
@@ -39,6 +39,9 @@ class Uploader(QtWidgets.QMainWindow):
         self.loader = loader.Loader()
         self.current_workout = None
 
+        self.completer_model = QtCore.QStringListModel(self.config.used_names)
+        self.completer = QtWidgets.QCompleter(self.completer_model, self)
+        self.ui.tbTitle.setCompleter(self.completer)
         if self.config.folder != "":
             self.loadFolder()
 
@@ -184,6 +187,9 @@ class Uploader(QtWidgets.QMainWindow):
         result = None
         sport_id = self.getSportID(self.ui.cbSportType.currentText())
         title = self.ui.tbTitle.text()
+        self.config.used_names.add(title)
+        self.completer_model.setStringList(self.config.used_names)
+        self.config.saveConfig()
         if self.config.add_stats:
             notes = self.current_workout.getStats()
         else:
