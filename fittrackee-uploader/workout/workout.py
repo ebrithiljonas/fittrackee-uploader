@@ -83,12 +83,12 @@ class Workout:
         if self.distance is None:
             distance = 0.0
             for i in range(len(self.points) - 1):
-                distance += self.distance(self.points[i].position, self.points[i+1].position)
+                distance += self._distance(self.points[i].position, self.points[i+1].position)
             return distance
         else:
             return self.distance
 
-    def distance(self, origin, destination):
+    def _distance(self, origin, destination):
         lat1, lon1 = origin
         lat2, lon2 = destination
         radius = 6371  # km
