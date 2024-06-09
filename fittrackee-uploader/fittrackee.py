@@ -2,7 +2,7 @@ import requests
 
 class FitTrackee():
 
-    url = None
+    url = ""
     token = None
     token_header = None
     user = None
@@ -46,9 +46,11 @@ class FitTrackee():
             return False
 
 
-    def add_workout(self, gpx, sport_id=0, title=None, notes=''):
+    def add_workout(self, gpx, sport_id=0, equipment_id="", title=None, notes=''):
         url = self.url + 'api/workouts'
         data = {'sport_id': sport_id, 'notes': notes}
+        if equipment_id != "":
+            data["equipment_ids"] = [equipment_id]
         file = {'file': ('workout.gpx', gpx), 'data': (None, str(data).replace("'",'"'))}
         resp = requests.post(url, headers=self.token_header, files = file)
         if resp.status_code == 201:
@@ -97,5 +99,21 @@ class FitTrackee():
             else:
                 sports = json['data']['sports']
             return sports
+        else:
+            return None
+
+    def get_equipment(self, only_active=False):
+        url = self.url + 'api/equipments'
+        resp = requests.get(url, headers=self.token_header)
+        if resp.status_code == 200:
+            json = resp.json()
+            if only_active:
+                equipment = []
+                for item in json['data']['equipments']:
+                    if item['is_active']:
+                        equipment.append(item)
+            else:
+                equipment = json['data']['equipments']
+            return equipment
         else:
             return None
