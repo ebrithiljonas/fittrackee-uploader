@@ -59,6 +59,7 @@ class Uploader(QtWidgets.QMainWindow):
                 self.showWindowonCenter(self.login_window)
             else:
                 self.loadSports()
+                self.loadEquipment()
                 self.ui.labelLoginStats.setText(
                     f"Logged in as {self.api.user} on {self.api.url}"
                 )
@@ -70,6 +71,7 @@ class Uploader(QtWidgets.QMainWindow):
         self.config.saveConfig()
         self.ui.labelLoginStats.setText("")
         self.ui.cbSportType.clear()
+        self.ui.cbEquipment.clear()
         self.login()
 
     def setup_callbacks(self):
@@ -172,8 +174,17 @@ class Uploader(QtWidgets.QMainWindow):
     def loadSports(self):
         self.sports = self.api.get_sports(True)
         self.ui.cbSportType.clear()
-        for sport in self.sports:
-            self.ui.cbSportType.addItem(sport["label"])
+        if self.sports is not None:
+            for sport in self.sports:
+                self.ui.cbSportType.addItem(sport["label"])
+
+    def loadEquipment(self):
+        self.equipment = self.api.get_equipment(True)
+        self.ui.cbEquipment.clear()
+        self.ui.cbEquipment.addItem("No Equipment")
+        if self.equipment is not None:
+            for item in self.equipment:
+                self.ui.cbEquipment.addItem(item["label"])
 
     def getSportID(self, sport_name):
         if len(self.sports) > 0:
@@ -182,10 +193,20 @@ class Uploader(QtWidgets.QMainWindow):
                     return sport["id"]
         return -1
 
+    def getEquipmentID(self, equipment_name):
+        if equipment_name == "No Equipment":
+            return ""
+        if len(self.equipment) > 0:
+            for item in self.equipment:
+                if item["label"] == equipment_name:
+                    return item["id"]
+        return ""
+
     def upload(self):
 
         result = None
         sport_id = self.getSportID(self.ui.cbSportType.currentText())
+        equipment_id = self.getEquipmentID(self.ui.cbEquipment.currentText())
         title = self.ui.tbTitle.text()
         self.config.used_names.add(title)
         self.completer_model.setStringList(self.config.used_names)
@@ -206,7 +227,7 @@ class Uploader(QtWidgets.QMainWindow):
             )
         else:
             gpx = self.current_workout.getGPX()
-            result = self.api.add_workout(gpx, sport_id, title, notes)
+            result = self.api.add_workout(gpx, sport_id, equipment_id, title, notes)
 
         if result:
             self.ui.tbTitle.setText("")
