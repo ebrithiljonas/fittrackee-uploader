@@ -1,0 +1,216 @@
+[build-system]
+requires = [
+  "setuptools>=45",
+  "setuptools_scm[toml]>=6.2",
+  ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fittrackee-uploader"
+description = "GUI for uploading GPX files to Fittrackee"
+readme = "README.md"
+license = {text = "GNU Lesser GPLv3 only"}
+dynamic = ["version"]
+authors = [
+  {name = "@ebrithiljonas"},
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+]
+keywords = [
+  "afm",
+  "image processing"
+]
+requires-python = ">=3.9"
+dependencies = [
+  "PyQt6>=6.4.2",
+  "PyQt6-WebEngine>=6.4.0",
+  "folium>=0.14.0",
+  "fitdecode>=0.10.0",
+  "gpxpy>=1.5.0",
+  "config-path>=1.0.3",
+  "typing-extensions",
+]
+
+[project.optional-dependencies]
+tests = [
+  "py",
+  "pytest",
+  "pytest-cov",
+  "pytest-github-actions-annotate-failures",
+  "pytest-lazy-fixture",
+  "pytest-regtest",
+  "filetype",
+]
+docs = [
+  "Sphinx",
+  "numpydoc",
+]
+dev = [
+  "black",
+  "ipython",
+  "pre-commit",
+  "pylint",
+  "pyupgrade",
+  "pytest-durations",
+  "pytest-xdist",
+  "ruff"
+]
+pypi = [
+  "build",
+  "setuptools_scm[toml]",
+  "wheel",
+]
+
+[project.urls]
+Source = "https://github.com/ebrithiljonas/fittrackee-uploader"
+Bug_Tracker = "https://github.com/ebrithiljonas/fittrackee-uploader/issues"
+# Documentation = "https://ebrithiljonas.github.io/fittrackee-uploader"
+
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fittrackee-uploader"]
+exclude = ["tests"]
+namespaces = false
+
+[tool.setuptools.package-data]
+topostats = ["*.yaml"]
+
+[tool.setuptools_scm]
+write_to = "fittrackee-uploader/_version.py"
+
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = ["--cov", "--mpl", "-ra", "--strict-config", "--strict-markers"]
+log_cli_level = "Info"
+testpaths = [
+    "tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore::UserWarning"
+]
+xfail_strict = true
+
+[tool.coverage.run]
+source = ["fittrackee-uploader"]
+omit = [
+  "fittrackee-uploader/_version.py",
+  "*tests*",
+  "**/__init__*",
+]
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.venv
+  )/
+)
+'''
+
+[tool.ruff]
+exclude = [
+  "*.ipynb",
+  ".bzr",
+  ".direnv",
+  ".eggs",
+  ".git",
+  ".hg",
+  ".mypy_cache",
+  ".nox",
+  ".pants.d",
+  ".pytype",
+  ".ruff_cache",
+  ".svn",
+  ".tox",
+  ".venv",
+  "__pycache__",
+  "__pypackages__",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "venv",
+]
+# per-file-ignores = []
+line-length = 120
+target-version = "py310"
+lint.select = [
+  "A", # flake8-builtins
+  "B", # flake8-bugbear
+  "C", #
+  "D", # pydocstyle
+  "E", # pycodestyle error
+  "F",
+  "I", # isort
+  "NPY", # numpy
+  "PT", # flake8-pytest-style
+  "PTH", # flake8-use-pathlib
+  "R",
+  "S", #flake8-bandit
+  "W", # pycodestyle warning
+  "U",
+  "UP", # pyupgrade
+]
+lint.ignore = [
+  "B905",
+  "E501",
+  "S101",
+]
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+lint.fixable = [
+  "A", # flake8-builtins
+  "B", # flake8-bugbear
+  "C", #
+  "D", # pydocstyle
+  "E", # pycodestyle error
+  "F",
+  "I", # isort
+  "NPY", # numpy
+  "PT", # flake8-pytest-style
+  "PTH", # flake8-use-pathlib
+  "R",
+  "S", #flake8-bandit
+  "W", # pycodestyle warning
+  "U",
+  "UP", # pyupgrade
+]
+lint.unfixable = []
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.flake8-pytest-style]
+fixture-parentheses = true
+
+[tool.codespell]
+skip = '*.gpx'
+count = ''
+quiet-level = 3
+
+# [project.scripts]
+# fittrackee_uploader = "fittrackee-uploader.entry_point:entry_point"
