@@ -1,27 +1,47 @@
+"""Interact with FitTrackee API."""
+
 import requests
 
 
 class FitTrackee:
-
     url = ""
     token = None
     token_header = None
     user = None
 
     def __init__(self):
-        pass
+        """Initialise the class."""
 
-    def setUrl(self, url):
+    def setUrl(self, url: str) -> None:
+        """Set url and ensure it is correctly formatted.
+
+        Parameters
+        ----------
+        url : str
+           URL of the server.
+        """
         if url.endswith("/"):
             self.url = url
         else:
             self.url = url + "/"
 
     def setToken(self, token):
+        """Set the Token."""
         self.token = token
         self.token_header = {"Authorization": f"Bearer {self.token}"}
 
-    def login(self, url: str, email: str, password: str):
+    def login(self, url: str, email: str, password: str) -> None:
+        """Login/authenticate with the server.
+
+        Parameters
+        ----------
+        url : str
+            URL of target server.
+        email : str
+            Email address of registered user.
+        password : str
+            Password for 'email'.
+        """
         # Authenticate
         self.setUrl(url)
         url = self.url + "api/auth/login"
@@ -33,8 +53,7 @@ class FitTrackee:
             self.setToken(self.token)
             # Get User Info
             return self.getUserInfo()
-        else:
-            return False
+        return False
 
     def getUserInfo(self):
         url = self.url + "api/auth/profile"
@@ -43,8 +62,7 @@ class FitTrackee:
             json = resp.json()
             self.user = json["data"]["username"]
             return True
-        else:
-            return False
+        return False
 
     def add_workout(self, gpx, sport_id=0, equipment_id="", title=None, notes=""):
         url = self.url + "api/workouts"
@@ -62,9 +80,8 @@ class FitTrackee:
                 data = {"title": title}
                 resp = requests.patch(url, headers=self.token_header, json=data)
             return True
-        else:
-            print(resp.json())
-            return False
+        print(resp.json())
+        return False
 
     def add_workout_no_gpx(self, date, duration, distance, sport_id=0, title=None, notes="", ascent=None, descent=None):
         url = self.url + "api/workouts/no_gpx"
@@ -81,9 +98,8 @@ class FitTrackee:
         resp = requests.post(url, headers=self.token_header, json=data)
         if resp.status_code == 201:
             return True
-        else:
-            print(resp.json())
-            return False
+        print(resp.json())
+        return False
 
     def get_sports(self, only_active=False):
         url = self.url + "api/sports"
@@ -98,8 +114,7 @@ class FitTrackee:
             else:
                 sports = json["data"]["sports"]
             return sports
-        else:
-            return None
+        return None
 
     def get_equipment(self, only_active=False):
         url = self.url + "api/equipments"
@@ -114,5 +129,4 @@ class FitTrackee:
             else:
                 equipment = json["data"]["equipments"]
             return equipment
-        else:
-            return None
+        return None
