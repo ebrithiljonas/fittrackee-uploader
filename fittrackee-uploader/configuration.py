@@ -1,3 +1,5 @@
+"""Configuration."""
+
 import json
 import os
 
@@ -5,7 +7,6 @@ from config_path import ConfigPath
 
 
 class Configuration:
-
     config = {}
     server_url = ""
     email = ""
