@@ -204,3 +204,6 @@ pyrightconfig.json
 
 # directory configuration
 .dir-locals.el
+
+# dynamically generated version file
+fittrackee-uploader/_version.py

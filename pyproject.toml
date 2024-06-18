@@ -58,9 +58,6 @@ dev = [
   "ipython",
   "pre-commit",
   "pylint",
-  "pyupgrade",
-  "pytest-durations",
-  "pytest-xdist",
   "ruff"
 ]
 pypi = [
@@ -149,6 +146,7 @@ exclude = [
   "build",
   "dist",
   "venv",
+  "fittrackee-uploads/ui/login.py"
 ]
 # per-file-ignores = []
 line-length = 120
