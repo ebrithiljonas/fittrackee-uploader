@@ -1,19 +1,17 @@
-import sys
 import io
 import os
-import folium
+import sys
 import webbrowser
-from PyQt6 import QtWidgets, QtCore
-import datetime
 
-import fittrackee
-from ui.main import Ui_MainWindow
-import options
-import login
 import configuration
-import workout.workout as workout
-import workout.loader as loader
+import fittrackee
+import folium
+import login
+import options
 import templates
+import workout.loader as loader
+from PyQt6 import QtCore, QtWidgets
+from ui.main import Ui_MainWindow
 
 
 class Uploader(QtWidgets.QMainWindow):
@@ -60,9 +58,7 @@ class Uploader(QtWidgets.QMainWindow):
             else:
                 self.loadSports()
                 self.loadEquipment()
-                self.ui.labelLoginStats.setText(
-                    f"Logged in as {self.api.user} on {self.api.url}"
-                )
+                self.ui.labelLoginStats.setText(f"Logged in as {self.api.user} on {self.api.url}")
                 self.ui.btUpload.setEnabled(True)
 
     def logout(self):
@@ -110,7 +106,7 @@ class Uploader(QtWidgets.QMainWindow):
                 else:
                     self.ui.webMap.setHtml(templates.page_failed_to_load)
             self.ui.statusbar.showMessage(path)
-            if not self.current_workout is None:
+            if self.current_workout is not None:
                 self.setMap(self.current_workout)
                 stats = f'{self.current_workout.getDate().strftime("%d %b, %Y")}   {self.current_workout.getTime()}   {self.current_workout.getDistance():.2f} km'
                 self.ui.labelStats.setText(stats)
@@ -222,9 +218,7 @@ class Uploader(QtWidgets.QMainWindow):
             distance = self.current_workout.getDistance()
             ascent = self.current_workout.ascent
             descent = self.current_workout.descent
-            result = self.api.add_workout_no_gpx(
-                date, duration, distance, sport_id, title, notes, ascent, descent
-            )
+            result = self.api.add_workout_no_gpx(date, duration, distance, sport_id, title, notes, ascent, descent)
         else:
             gpx = self.current_workout.getGPX()
             result = self.api.add_workout(gpx, sport_id, equipment_id, title, notes)
@@ -238,12 +232,12 @@ class Uploader(QtWidgets.QMainWindow):
                         sport_name = self.ui.cbSportType.currentText()
                         sport_name = sport_name.split("(")[0]
                         sport_name = sport_name.lower().replace(" ", "")
-                        new_file_name = f"{os.path.splitext(file_name)[0]}_{sport_name}_{title}{os.path.splitext(file_name)[1]}"
+                        new_file_name = (
+                            f"{os.path.splitext(file_name)[0]}_{sport_name}_{title}{os.path.splitext(file_name)[1]}"
+                        )
                     else:
                         new_file_name = file_name
-                    new_file_path = os.path.join(
-                        self.config.uploaded_folder, new_file_name
-                    )
+                    new_file_path = os.path.join(self.config.uploaded_folder, new_file_name)
                     os.rename(self.current_workout.getFilePath(), new_file_path)
             self.loadNextFile()
         else:

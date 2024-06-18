@@ -1,9 +1,11 @@
-import gpxpy
 import math
+
+import gpxpy
+
 
 class Workout:
 
-    def __init__(self, points, path, stats = '', date=None, time=None, distance=None, ascent=None, descent=None):
+    def __init__(self, points, path, stats="", date=None, time=None, distance=None, ascent=None, descent=None):
         self.points = points
         self.stats = stats
         self.path = path
@@ -57,9 +59,11 @@ class Workout:
         gpx_track.segments.append(gpx_segment)
         # Create points:
         for point in self.points:
-            point = gpxpy.gpx.GPXTrackPoint(point.getLat(), point.getLong(), round(point.altitude, 3), point.timestamp, speed=point.speed)
+            point = gpxpy.gpx.GPXTrackPoint(
+                point.getLat(), point.getLong(), round(point.altitude, 3), point.timestamp, speed=point.speed
+            )
             gpx_segment.points.append(point)
-        return gpx.to_xml(version='1.0')
+        return gpx.to_xml(version="1.0")
 
     def getStats(self):
         return self.stats
@@ -83,7 +87,7 @@ class Workout:
         if self.distance is None:
             distance = 0.0
             for i in range(len(self.points) - 1):
-                distance += self._distance(self.points[i].position, self.points[i+1].position)
+                distance += self._distance(self.points[i].position, self.points[i + 1].position)
             return distance
         else:
             return self.distance
@@ -95,14 +99,13 @@ class Workout:
 
         dlat = math.radians(lat2 - lat1)
         dlon = math.radians(lon2 - lon1)
-        a = (math.sin(dlat / 2) * math.sin(dlat / 2) +
-            math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
-            math.sin(dlon / 2) * math.sin(dlon / 2))
+        a = math.sin(dlat / 2) * math.sin(dlat / 2) + math.cos(math.radians(lat1)) * math.cos(
+            math.radians(lat2)
+        ) * math.sin(dlon / 2) * math.sin(dlon / 2)
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
         d = radius * c
 
         return d
-
 
 
 class Point:

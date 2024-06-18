@@ -1,6 +1,7 @@
-from typing_extensions import override
 import gpxpy
 import workout.workout as workout
+from typing_extensions import override
+
 
 class GPX(workout.Workout):
 
@@ -17,4 +18,4 @@ class GPX(workout.Workout):
 
     @override
     def getGPX(self):
-        return self.gpx_file.to_xml(version='1.0')
+        return self.gpx_file.to_xml(version="1.0")

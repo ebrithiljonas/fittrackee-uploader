@@ -1,7 +1,8 @@
 import os
-import workout.workout as workout
+
 import workout.fit as fit
 import workout.gpx as gpx
+
 
 class Loader:
 

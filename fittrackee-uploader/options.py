@@ -1,6 +1,7 @@
 from PyQt6 import QtWidgets
 from ui.options import Ui_OptionsWindow
 
+
 class Options(QtWidgets.QWidget):
 
     def __init__(self, main_window, configuration):
@@ -8,11 +9,10 @@ class Options(QtWidgets.QWidget):
         self.ui = Ui_OptionsWindow()
         self.ui.setupUi(self)
         self.setup_callbacks()
-        
+
         self.main_window = main_window
         self.configuration = configuration
         self.loadConfig()
-
 
     def loadConfig(self):
         self.ui.tbServer.setText(self.configuration.server_url)
@@ -29,7 +29,6 @@ class Options(QtWidgets.QWidget):
         self.ui.btBrowseFolder.clicked.connect(lambda: self.selectFolder(self.ui.tbFolder))
         self.ui.btBrowseUploadedFolder.clicked.connect(lambda: self.selectFolder(self.ui.tbUploadedFolder))
 
-
     def saveConfig(self):
         if self.configuration.folder != self.ui.tbFolder.text():
             self.main_window.loadFolder()
@@ -45,5 +44,5 @@ class Options(QtWidgets.QWidget):
 
     def selectFolder(self, textBox):
         file = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
-        if file != '':
+        if file != "":
             textBox.setText(file)
