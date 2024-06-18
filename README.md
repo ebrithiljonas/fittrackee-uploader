@@ -2,9 +2,11 @@
 
 **A companion application for [FitTrackee](https://samr1.github.io/FitTrackee/) to upload your workout files**
 
-With this application you can easily upload your workouts to your FitTrackee instance. Just set a source folder where you store your workouts, and it will show you the track and some basic stats. You can choose a sport type and set a title and then just hit upload and your file will automatically be converted to a GPX file and uploaded.
+With this application you can easily upload your workouts to your FitTrackee instance. Just set a source folder where
+you store your workouts, and it will show you the track and some basic stats. You can choose a sport type and set a
+title and then just hit upload and your file will automatically be converted to a GPX file and uploaded.
 
-![](images/main_window.png)
+![Sample screen shot](images/main_window.png "Sample screen shot of Fittrackee Uploader")
 
 ## Features
 
@@ -18,9 +20,12 @@ With this application you can easily upload your workouts to your FitTrackee ins
 * FIT
 * GPX
 
-# Basic usage
+## Basic usage
 
-The first time you start it, you'll be asked to enter your fittrackee URL and user login details, then it will log you in automatically. Then go to Settings > Options and select the local folder where the fit/gpx files are located. These files will be loaded one by one, so you can select the type of training (run, walk, bike...), give it a title and then click on the Upload button.
+The first time you start it, you'll be asked to enter your fittrackee URL and user login details, then it will log you
+in automatically. Then go to Settings > Options and select the local folder where the fit/gpx files are located. These
+files will be loaded one by one, so you can select the type of training (run, walk, bike...), give it a title and then
+click on the Upload button.
 
 ## Installation
 
