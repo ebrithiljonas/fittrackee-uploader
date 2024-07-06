@@ -1,18 +1,28 @@
+"""Module for loading .fit file types."""
+
 import datetime
 
 import fitdecode
 import workout.workout as workout
 
+# pylint: disable=too-many-branches
+# pylint: disable=too-many-instance-attributes
+
 
 class FitFile(workout.Workout):
+    """Class for loading .fit files."""
 
-    time = None
-    distance = None
-    date = None
-    ascent = None
-    descent = None
+    time = (None,)
+    distance: float = (None,)
+    date = (None,)
+    ascent: float = (None,)
+    descent = (None,)
 
-    def __init__(self, path):
+    def __init__(
+        self,
+        path: str,
+    ):
+        """Initialise the class."""
         # Read Fit File
         self.path = path
         self.file = fitdecode.FitReader(path)
@@ -75,18 +85,18 @@ class FitFile(workout.Workout):
         )
 
     def getSport(self):
+        """Extract sport based on attributes."""
         sport = self.attributes["sport"]
         if sport == "cycling":
             return 1
-        elif sport == "running":
+        if sport == "running":
             return 5
-        else:
-            return None
+        return None
 
     def getStats(self):
-        if self.attributes is None:
-            stats = ""
-        else:
+        """Extract statistics."""
+        stats = ""
+        if self.attributes is not None:
             stats = f'Average Heart Rate: {self.attributes["avg_heart_rate"]} Bpm \n'
             stats += f'Maximum Heart Rate: {self.attributes["max_heart_rate"]} Bpm \n'
             stats += f'Calories: {self.attributes["calories"]} kcal \n'
@@ -95,18 +105,27 @@ class FitFile(workout.Workout):
 
 
 class Record:
+    """Class for Record."""
 
     timestamp = None
-    position_lat = None
-    position_long = None
-    distance = None
-    speed = None
-    altitude = None
-    heart_rate = None
-    cadence = None
-    temperature = None
+    position_lat: float = None
+    position_long: float = None
+    distance: float = None
+    speed: float = None
+    altitude: float = None
+    heart_rate: float = None
+    cadence: float = None
+    temperature: float = None
 
     def __init__(self, frame):
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        frame
+            Frame to be processed.
+        """
         if frame.has_field("timestamp"):
             self.timestamp = frame.get_value("timestamp")
         if frame.has_field("position_lat"):
@@ -126,14 +145,40 @@ class Record:
         if frame.has_field("temperature"):
             self.temperature = frame.get_value("temperature")
 
-    def has_position(self):
-        if self.position_lat != None and self.position_long != None:
+    def has_position(self) -> bool:
+        """Whether a frame has a GPS position."""
+        if self.position_lat is not None and self.position_long is not None:
             return True
-        else:
-            return False
+        return False
 
-    def getLat(self):
-        return round(float(self.position_lat * 180) / float(2**31), 9)
+    def getLat(self, precision: int) -> float:
+        """
+        Extract latitude.
 
-    def getLong(self):
-        return round(float(self.position_long * 180) / float(2**31), 9)
+        Parameters
+        ----------
+        precision : int
+            Number of decimal points to round latitude to.
+
+        Returns
+        -------
+        float
+            Latitude.
+        """
+        return round(float(self.position_lat * 180) / float(2**31), ndigits=precision)
+
+    def getLong(self, precision: int):
+        """
+        Extract longitude.
+
+        Parameters
+        ----------
+        precision : int
+            Number of decimal points to round longitude to.
+
+        Returns
+        -------
+        float
+            Longitude.
+        """
+        return round(float(self.position_long * 180) / float(2**31), ndigits=precision)
