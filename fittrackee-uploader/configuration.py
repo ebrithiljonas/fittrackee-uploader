@@ -1,12 +1,14 @@
 """Configuration."""
 
 import json
-import os
+from pathlib import Path
 
 from config_path import ConfigPath
 
 
 class Configuration:
+    """Configuration class."""
+
     config = {}
     server_url = ""
     email = ""
@@ -20,11 +22,12 @@ class Configuration:
     used_names: set[str] = set()
 
     def __init__(self):
+        """Initialise class."""
         conf_path = ConfigPath("FitTrackee_Uploader", "ebrithiljonas", ".json")
-        self.path = os.path.join(conf_path.saveFolderPath(mkdir=True), "config.json")
-
-        if os.path.isfile(self.path):
-            with open(self.path) as conf_file:
+        # self.path = os.path.join(conf_path.saveFolderPath(mkdir=True), "config.json")
+        self.path = Path(conf_path.saveFolderPath(mkdir=True), "config.json")
+        if self.path.is_file():
+            with self.path.open() as conf_file:
                 self.config = json.load(conf_file)
                 try:
                     self.server_url = self.config["server_url"]
@@ -68,6 +71,7 @@ class Configuration:
                     pass
 
     def saveConfig(self):
+        """Save configuration."""
         self.config["server_url"] = self.server_url
         self.config["email"] = self.email
         self.config["token"] = self.token
@@ -80,5 +84,5 @@ class Configuration:
         self.config["used_names"] = list(self.used_names)
 
         json_conf = json.dumps(self.config, indent=4)
-        with open(self.path, "w") as outfile:
+        with self.path.open("w") as outfile:
             outfile.write(json_conf)

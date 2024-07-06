@@ -1,3 +1,5 @@
+"""Templates."""
+
 page_no_gps_records = """
 <!DOCTYPE html>
 <html>
