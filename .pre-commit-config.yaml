@@ -56,6 +56,12 @@ repos:
       - id: codespell
         args: [-I .codespell-ignore]
 
+
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.7.0
+    hooks:
+      - id: numpydoc-validation
+
   - repo: local
     hooks:
       - id: pylint
