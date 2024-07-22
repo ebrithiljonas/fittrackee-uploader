@@ -58,9 +58,6 @@ dev = [
   "ipython",
   "pre-commit",
   "pylint",
-  "pyupgrade",
-  "pytest-durations",
-  "pytest-xdist",
   "ruff"
 ]
 pypi = [
@@ -149,6 +146,7 @@ exclude = [
   "build",
   "dist",
   "venv",
+  "fittrackee-uploads/ui/login.py"
 ]
 # per-file-ignores = []
 line-length = 120
@@ -204,13 +202,34 @@ case-sensitive = true
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
-[tool.ruff.flake8-pytest-style]
+[tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = true
 
 [tool.codespell]
 skip = '*.gpx'
 count = ''
 quiet-level = 3
+
+[tool.numpydoc_validation]
+checks = [
+  "all", # Perform all check except those listed below
+  "ES01",
+  "EX01",
+  "PR10", # Conflicts with black formatting
+  "SA01",
+]
+exclude = [  # don't report on objects that match any of these regex
+    "\\.undocumented_method$",
+    "\\.__repr__$",
+    "^test_",
+    "^conftest",
+    "^conf$",
+]
+override_SS05 = [  # override SS05 to allow docstrings starting with these words
+    "^Process ",
+    "^Assess ",
+    "^Access ",
+]
 
 # [project.scripts]
 # fittrackee_uploader = "fittrackee-uploader.entry_point:entry_point"

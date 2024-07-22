@@ -1,20 +1,25 @@
+"""Options."""
+
 from PyQt6 import QtWidgets
 from ui.options import Ui_OptionsWindow
 
+
 class Options(QtWidgets.QWidget):
+    """Options class."""
 
     def __init__(self, main_window, configuration):
+        """Initialise class."""
         super().__init__()
         self.ui = Ui_OptionsWindow()
         self.ui.setupUi(self)
         self.setup_callbacks()
-        
+
         self.main_window = main_window
         self.configuration = configuration
         self.loadConfig()
 
-
     def loadConfig(self):
+        """Load configuration."""
         self.ui.tbServer.setText(self.configuration.server_url)
         self.ui.tbFolder.setText(self.configuration.folder)
         self.ui.tbUploadedFolder.setText(self.configuration.uploaded_folder)
@@ -24,13 +29,14 @@ class Options(QtWidgets.QWidget):
         self.ui.cbAutoSkip.setChecked(self.configuration.auto_skip)
 
     def setup_callbacks(self):
+        """Callbacks."""
         self.ui.btCancel.clicked.connect(self.close)
         self.ui.btSave.clicked.connect(self.saveConfig)
         self.ui.btBrowseFolder.clicked.connect(lambda: self.selectFolder(self.ui.tbFolder))
         self.ui.btBrowseUploadedFolder.clicked.connect(lambda: self.selectFolder(self.ui.tbUploadedFolder))
 
-
     def saveConfig(self):
+        """Save configuration."""
         if self.configuration.folder != self.ui.tbFolder.text():
             self.main_window.loadFolder()
         self.configuration.server_url = self.ui.tbServer.text()
@@ -44,6 +50,7 @@ class Options(QtWidgets.QWidget):
         self.close()
 
     def selectFolder(self, textBox):
+        """Select folder."""
         file = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
-        if file != '':
+        if file != "":
             textBox.setText(file)
