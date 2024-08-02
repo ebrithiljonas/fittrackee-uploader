@@ -11,7 +11,7 @@ class Options(QtWidgets.QWidget):
     Parameters
     ----------
     main_window : None
-        Main window
+        Main window.
     configuration : dict
         Configuration options.
     """
@@ -23,7 +23,7 @@ class Options(QtWidgets.QWidget):
         Parameters
         ----------
         main_window : None
-            Main window
+            Main window.
         configuration : dict
             Configuration options.
         """

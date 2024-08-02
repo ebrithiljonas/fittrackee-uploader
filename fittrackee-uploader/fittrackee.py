@@ -146,9 +146,9 @@ class FitTrackee:
         Parameters
         ----------
         date : str
-            Date
+            Date.
         duration : int | float
-            Duration of work out in minutes?
+            Duration of work out in minutes.
         distance : float
             Distance travelled.
         sport_id : int
