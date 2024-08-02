@@ -16,7 +16,8 @@ class FitTrackee:
         self.timeout = timeout
 
     def setUrl(self, url: str) -> None:
-        """Set url and ensure it is correctly formatted.
+        """
+        Set url and ensure it is correctly formatted.
 
         Parameters
         ----------
@@ -34,7 +35,8 @@ class FitTrackee:
         self.token_header = {"Authorization": f"Bearer {self.token}"}
 
     def login(self, url: str, email: str, password: str) -> None:
-        """Login/authenticate with the server.
+        """
+        Login/authenticate with the server.
 
         Parameters
         ----------
@@ -114,7 +116,8 @@ class FitTrackee:
         ascent: int | float = None,
         descent: int | float = None,
     ):
-        """Add workout without GPX file.
+        """
+        Add workout without GPX file.
 
         Parameters
         ----------

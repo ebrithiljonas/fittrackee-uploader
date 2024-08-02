@@ -1,5 +1,6 @@
 """Sub-module for working with a worklout."""
 
+from pathlib import Path
 import math
 
 import gpxpy
@@ -11,8 +12,39 @@ import gpxpy
 class Workout:
     """Workout class."""
 
-    def __init__(self, points, path, stats="", date=None, time=None, distance=None, ascent=None, descent=None):
-        """Initialise the class."""
+    def __init__(
+        self,
+        points: None,
+        path: str | Path,
+        stats: str = "",
+        date: str = None,
+        time: str = None,
+        distance: int | float = None,
+        ascent: int | float = None,
+        descent: int | float = None,
+    ) -> None:
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        points : None
+            GPS points.
+        path : str | Path
+            Path to file.
+        stats : str
+            Statistics.
+        date : str
+            Date of workout.
+        time : str
+            Time of workout.
+        distance : int | float
+            Distance of workout.
+        ascent : int | float
+            Ascent of workout.
+        descent : int | float
+            Descent of workout.
+        """
         self.points = points
         self.stats = stats
         self.path = path
@@ -171,7 +203,8 @@ class Point:
         cadence: float = None,
         temperature: float = None,
     ):
-        """Initialise the class.
+        """
+        Initialise the class.
 
         Parameters
         ----------
