@@ -134,7 +134,7 @@ class FitTrackee:
         notes : str
             Notes to accompany workout.
         ascent : int | float
-
+            Gain in altitude.
         """
         url = self.url + "api/workouts/no_gpx"
         data = {
