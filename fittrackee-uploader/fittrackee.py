@@ -1,6 +1,7 @@
 """Interact with FitTrackee API."""
 
 from pathlib import Path
+
 import requests
 
 
@@ -56,7 +57,7 @@ class FitTrackee:
         self.token = token
         self.token_header = {"Authorization": f"Bearer {self.token}"}
 
-    def login(self, url: str, email: str, password: str) -> None:
+    def login(self, url: str, email: str, password: str) -> bool:
         """
         Login/authenticate with the server.
 
@@ -68,6 +69,11 @@ class FitTrackee:
             Email address of registered user.
         password : str
             Password for 'email'.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether login was successful.
         """
         # Authenticate
         self.setUrl(url)
@@ -82,8 +88,15 @@ class FitTrackee:
             return self.getUserInfo()
         return False
 
-    def getUserInfo(self):
-        """Get user information."""
+    def getUserInfo(self) -> bool:
+        """
+        Get user information.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether login was successful.
+        """
         url = self.url + "api/auth/profile"
         resp = requests.get(url, headers=self.token_header, timeout=self.timeout)
         if resp.status_code == 200:
@@ -94,7 +107,7 @@ class FitTrackee:
 
     def add_workout(
         self, gpx: str | Path, sport_id: int = 0, equipment_id: str = "", title: str = None, notes: str = ""
-    ):
+    ) -> bool:
         """
         Add a workout.
 
@@ -110,6 +123,11 @@ class FitTrackee:
             Title for workout.
         notes : str
             Notes to accompany the workout.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether adding workout was successful or not.
         """
         url = self.url + "api/workouts"
         data = {"sport_id": sport_id, "notes": notes}
@@ -139,7 +157,7 @@ class FitTrackee:
         notes: str = "",
         ascent: int | float = None,
         descent: int | float = None,
-    ):
+    ) -> bool:
         """
         Add workout without GPX file.
 
@@ -161,6 +179,11 @@ class FitTrackee:
             Gain in altitude.
         descent : int | float
             Loss of altitude.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether adding workout was successful or not.
         """
         url = self.url + "api/workouts/no_gpx"
         data = {
@@ -187,6 +210,11 @@ class FitTrackee:
         ----------
         only_active : bool
             Only get active sports.
+
+        Returns
+        -------
+        list | None
+            List of sports or None.
         """
         url = self.url + "api/sports"
         resp = requests.get(url, headers=self.token_header, timeout=self.timeout)
@@ -210,6 +238,11 @@ class FitTrackee:
         ----------
         only_active : bool
             Only get active equipment.
+
+        Returns
+        -------
+        list | None
+            List of equipment or None.
         """
         url = self.url + "api/equipments"
         resp = requests.get(url, headers=self.token_header, timeout=self.timeout)

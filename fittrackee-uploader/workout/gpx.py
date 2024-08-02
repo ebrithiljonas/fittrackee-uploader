@@ -49,5 +49,10 @@ class GPX(workout.Workout):
         ----------
         version : str
             GPX version.
+
+        Returns
+        -------
+        xml
+            XML formatted data from GPX file.
         """
         return self.gpx_file.to_xml(version=version)

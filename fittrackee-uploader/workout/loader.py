@@ -19,7 +19,7 @@ class Loader:
     def __init__(self):
         """Initialise the class."""
 
-    def loadFile(self, path: str):
+    def loadFile(self, path: str) -> str | None:
         """
         Load a file using appropriate method.
 
@@ -27,6 +27,11 @@ class Loader:
         ----------
         path : str
             Path to file.
+
+        Returns
+        -------
+        str | None
+            Path to files or None.
         """
         if os.path.isfile(path):
             extension = os.path.splitext(path)[1]

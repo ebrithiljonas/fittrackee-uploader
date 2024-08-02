@@ -1,7 +1,7 @@
 """Sub-module for working with a worklout."""
 
-from pathlib import Path
 import math
+from pathlib import Path
 
 import gpxpy
 
@@ -76,7 +76,14 @@ class Workout:
         self.descent = descent
 
     def getExtent(self) -> list[tuple[float, float], tuple[float, float]]:
-        """Extract bounding box for track."""
+        """
+        Extract bounding box for track.
+
+        Returns
+        -------
+        tuple
+            Minimum and Maximum latitude/longitude which forms a bounding box around GPS points.
+        """
         min_lat = self.points[0].getLat()
         max_lat = min_lat
         min_lon = self.points[0].getLong()
@@ -122,7 +129,7 @@ class Workout:
             path.append(point.position)
         return path
 
-    def getGPX(self, precision: int = 3):
+    def getGPX(self, precision: int = 3) -> str:
         """
         Extract GPX data.
 
@@ -132,6 +139,11 @@ class Workout:
         ----------
         precision : int
             Decimal places to round altitude to.
+
+        Returns
+        -------
+        str
+            XML version of GPX track.
         """
         gpx = gpxpy.gpx.GPX()
         # Create first track in our GPX:
@@ -148,28 +160,63 @@ class Workout:
             gpx_segment.points.append(point)
         return gpx.to_xml(version="1.0")
 
-    def getStats(self):
-        """Get statistics."""
+    def getStats(self) -> dict:
+        """
+        Get statistics.
+
+        Returns
+        -------
+        dict
+            Statistics from GPX track.
+        """
         return self.stats
 
-    def getFilePath(self):
-        """Get file path."""
+    def getFilePath(self) -> str | Path:
+        """
+        Get file path.
+
+        Returns
+        -------
+        str | Path
+            Path to GPX file.
+        """
         return self.path
 
-    def getDate(self):
-        """Get date."""
+    def getDate(self) -> str:
+        """
+        Get date.
+
+        Returns
+        -------
+        str
+            Date of activity.
+        """
         if self.date is None:
             return self.points[0].timestamp
         return self.date
 
-    def getTime(self):
-        """Get time."""
+    def getTime(self) -> float:
+        """
+        Get time.
+
+        Returns
+        -------
+        float
+            Time of activity.
+        """
         if self.time is None:
             return self.points[-1].timestamp - self.points[0].timestamp
         return self.time
 
-    def getDistance(self):
-        """Get distance."""
+    def getDistance(self) -> float:
+        """
+        Get distance.
+
+        Returns
+        -------
+        float
+            Distance.
+        """
         if self.distance is None:
             distance = 0.0
             for i in range(len(self.points) - 1):
@@ -272,9 +319,23 @@ class Point:
         self.temperature = temperature
 
     def getLat(self):
-        """Get Latitude."""
+        """
+        Get Latitude.
+
+        Returns
+        -------
+        float
+            Longitude.
+        """
         return self.position[0]
 
-    def getLong(self):
-        """Get Longitude."""
+    def getLong(self) -> float:
+        """
+        Get Longitude.
+
+        Returns
+        -------
+        float
+            Longitude.
+        """
         return self.position[1]

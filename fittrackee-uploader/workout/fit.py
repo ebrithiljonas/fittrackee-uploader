@@ -1,7 +1,7 @@
 """Module for loading .fit file types."""
 
-from pathlib import Path
 import datetime
+from pathlib import Path
 
 import fitdecode
 import workout.workout as workout
@@ -96,8 +96,15 @@ class FitFile(workout.Workout):
             points, self.path, self.getStats(), self.date, self.time, self.distance, self.ascent, self.descent
         )
 
-    def getSport(self):
-        """Extract sport based on attributes."""
+    def getSport(self) -> int | None:
+        """
+        Extract sport based on attributes.
+
+        Returns
+        -------
+        int | None
+            Integer indicating sport type or None.
+        """
         sport = self.attributes["sport"]
         if sport == "cycling":
             return 1
@@ -105,8 +112,15 @@ class FitFile(workout.Workout):
             return 5
         return None
 
-    def getStats(self):
-        """Extract statistics."""
+    def getStats(self) -> str:
+        """
+        Extract statistics.
+
+        Returns
+        -------
+        str
+            String of average and maximum heart rate, calories and sport type.
+        """
         stats = ""
         if self.attributes is not None:
             stats = f'Average Heart Rate: {self.attributes["avg_heart_rate"]} Bpm \n'
@@ -165,7 +179,14 @@ class Record:
             self.temperature = frame.get_value("temperature")
 
     def has_position(self) -> bool:
-        """Whether a frame has a GPS position."""
+        """
+        Whether a frame has a GPS position.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether GPS track has latitude/longitude.
+        """
         if self.position_lat is not None and self.position_long is not None:
             return True
         return False
