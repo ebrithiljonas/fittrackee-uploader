@@ -173,7 +173,7 @@ class Workout:
         Returns
         -------
         float
-            Distance between two points in km
+            Distance between two points in km.
         """
         lat1, lon1 = origin
         lat2, lon2 = destination
