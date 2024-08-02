@@ -5,10 +5,28 @@ from ui.options import Ui_OptionsWindow
 
 
 class Options(QtWidgets.QWidget):
-    """Options class."""
+    """
+    Options class.
 
-    def __init__(self, main_window, configuration):
-        """Initialise class."""
+    Parameters
+    ----------
+    main_window : None
+        Main window
+    configuration : dict
+        Configuration options.
+    """
+
+    def __init__(self, main_window: None, configuration: dict) -> None:
+        """
+        Initialise class.
+
+        Parameters
+        ----------
+        main_window : None
+            Main window
+        configuration : dict
+            Configuration options.
+        """
         super().__init__()
         self.ui = Ui_OptionsWindow()
         self.ui.setupUi(self)
@@ -49,8 +67,15 @@ class Options(QtWidgets.QWidget):
         self.configuration.saveConfig()
         self.close()
 
-    def selectFolder(self, textBox):
-        """Select folder."""
+    def selectFolder(self, textBox: None) -> None:
+        """
+        Select folder.
+
+        Parameters
+        ----------
+        textBox : None
+            Text box for selecting GPX directory.
+        """
         file = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
         if file != "":
             textBox.setText(file)

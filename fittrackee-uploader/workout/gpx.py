@@ -8,9 +8,18 @@ from typing_extensions import override
 
 
 class GPX(workout.Workout):
-    """GPX class."""
+    """
+    GPX class.
 
-    def __init__(self, path: str, encoding: str = "utf-8"):
+    Parameters
+    ----------
+    path : str
+        Path to GPX file.
+    encoding : str
+        Encoding of GPX file to be opened.
+    """
+
+    def __init__(self, path: str, encoding: str = "utf-8") -> None:
         """
         Initialise class.
 
@@ -32,6 +41,13 @@ class GPX(workout.Workout):
         super().__init__(points, path)
 
     @override
-    def getGPX(self, version: str = "1.0"):
-        """Extract GPX data to XML."""
+    def getGPX(self, version: str = "1.0") -> None:
+        """
+        Extract GPX data to XML.
+
+        Parameters
+        ----------
+        version : str
+            GPX version.
+        """
         return self.gpx_file.to_xml(version=version)

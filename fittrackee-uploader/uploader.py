@@ -319,7 +319,7 @@ class Uploader(QtWidgets.QMainWindow):
 
         Parameters
         ----------
-        window: None
+        window : None
             Window to center.
         """
         window.show()

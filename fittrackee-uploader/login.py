@@ -5,8 +5,32 @@ from ui.login import Ui_LoginWindow
 
 
 class Login(QtWidgets.QWidget):
-    def __init__(self, main_window, configuration, api):
-        """Initialise class."""
+    """
+    Login class.
+
+    Parameters
+    ----------
+    main_window : None
+        Main window.
+    configuration : dict
+        Configuration options.
+    api : None
+        API options.
+    """
+
+    def __init__(self, main_window: None, configuration: dict, api: None) -> None:
+        """
+        Initialise class.
+
+        Parameters
+        ----------
+        main_window : None
+            Main window.
+        configuration : dict
+            Configuration options.
+        api : None
+            API options.
+        """
         super().__init__()
         self.ui = Ui_LoginWindow()
         self.ui.setupUi(self)

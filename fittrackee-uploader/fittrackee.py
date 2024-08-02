@@ -5,7 +5,14 @@ import requests
 
 
 class FitTrackee:
-    """FitTrackee class."""
+    """
+    FitTrackee class.
+
+    Parameters
+    ----------
+    timeout : int | float
+        Timeout for connection in seconds.
+    """
 
     url = ""
     token = None
@@ -13,7 +20,14 @@ class FitTrackee:
     user = None
 
     def __init__(self, timeout: int | float = 10000):
-        """Initialise the class."""
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        timeout : int | float
+            Timeout for connection in seconds.
+        """
         self.timeout = timeout
 
     def setUrl(self, url: str) -> None:
@@ -30,8 +44,15 @@ class FitTrackee:
         else:
             self.url = url + "/"
 
-    def setToken(self, token):
-        """Set the Token."""
+    def setToken(self, token: str) -> None:
+        """
+        Set the Token.
+
+        Parameters
+        ----------
+        token : str
+            Token for authorizing connection.
+        """
         self.token = token
         self.token_header = {"Authorization": f"Bearer {self.token}"}
 
@@ -138,6 +159,8 @@ class FitTrackee:
             Notes to accompany workout.
         ascent : int | float
             Gain in altitude.
+        descent : int | float
+            Loss of altitude.
         """
         url = self.url + "api/workouts/no_gpx"
         data = {

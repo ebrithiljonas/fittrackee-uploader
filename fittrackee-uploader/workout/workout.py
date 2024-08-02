@@ -10,7 +10,28 @@ import gpxpy
 
 
 class Workout:
-    """Workout class."""
+    """
+    Workout class.
+
+    Parameters
+    ----------
+    points : None
+        GPS points.
+    path : str | Path
+        Path to file.
+    stats : str
+        Statistics.
+    date : str
+        Date of workout.
+    time : str
+        Time of workout.
+    distance : int | float
+        Distance of workout.
+    ascent : int | float
+        Ascent of workout.
+    descent : int | float
+        Descent of workout.
+    """
 
     def __init__(
         self,
@@ -23,8 +44,7 @@ class Workout:
         ascent: int | float = None,
         descent: int | float = None,
     ) -> None:
-        """
-        Initialise the class.
+        """Initialise the class.
 
         Parameters
         ----------
@@ -165,7 +185,7 @@ class Workout:
 
         Parameters
         ----------
-        origin: tuple
+        origin : tuple
             Starting latitude/longitude.
         destination : tuple
             Finishing latitude/longitude.
@@ -191,7 +211,26 @@ class Workout:
 
 
 class Point:
-    """Class for points."""
+    """
+    Class for points.
+
+    Parameters
+    ----------
+    timestamp : str | datetime
+        Timestamp for GPS point.
+    position : tuple
+        Latitude and longitude of the point.
+    altitude : float
+        Altitude of the point.
+    speed : float
+        Speed (from GPS device).
+    heart_rate : float
+        Heart-rate from device.
+    cadence : float
+        Cadence from device.
+    temperature : float
+        Temperature from device.
+    """
 
     def __init__(
         self,

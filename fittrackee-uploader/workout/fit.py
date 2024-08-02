@@ -1,5 +1,6 @@
 """Module for loading .fit file types."""
 
+from pathlib import Path
 import datetime
 
 import fitdecode
@@ -10,7 +11,14 @@ import workout.workout as workout
 
 
 class FitFile(workout.Workout):
-    """Class for loading .fit files."""
+    """
+    Class for loading .fit files.
+
+    Parameters
+    ----------
+    path : str | Path
+        Path to '.fit' workout file.
+    """
 
     time = (None,)
     distance: float = (None,)
@@ -18,11 +26,15 @@ class FitFile(workout.Workout):
     ascent: float = (None,)
     descent = (None,)
 
-    def __init__(
-        self,
-        path: str,
-    ):
-        """Initialise the class."""
+    def __init__(self, path: str | Path) -> None:
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        path : str | Path
+            Path to '.fit' workout file.
+        """
         # Read Fit File
         self.path = path
         self.file = fitdecode.FitReader(path)
@@ -105,7 +117,14 @@ class FitFile(workout.Workout):
 
 
 class Record:
-    """Class for Record."""
+    """
+    Class for Record.
+
+    Parameters
+    ----------
+    frame : None
+        Frame to be processed.
+    """
 
     timestamp = None
     position_lat: float = None
