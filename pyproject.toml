@@ -224,6 +224,7 @@ exclude = [  # don't report on objects that match any of these regex
     "^test_",
     "^conftest",
     "^conf$",
+    "\\.Ui"
 ]
 override_SS05 = [  # override SS05 to allow docstrings starting with these words
     "^Process ",
