@@ -108,7 +108,7 @@ class FitTrackee:
     def add_workout_no_gpx(  # pylint: disable=too-many-arguments
         self,
         date: str,
-        duration,
+        duration: int | float,
         distance: float,
         sport_id: int = 0,
         title: str = None,
@@ -123,7 +123,7 @@ class FitTrackee:
         ----------
         date : str
             Date
-        duration : Duration of workout.
+        duration : int | float
             Duration of work out in minutes?
         distance : float
             Distance travelled.
