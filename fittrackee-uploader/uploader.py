@@ -147,13 +147,13 @@ class Uploader(QtWidgets.QMainWindow):
             self.ui.statusbar.clearMessage()
             self.ui.labelStats.setText("")
 
-    def setMap(self, wo) -> None:
+    def setMap(self, wo: str) -> None:
         """
         Set the map.
 
         Parameters
         ----------
-        wo :
+        wo : str
             Workout to set the map for.
         """
         if wo is None:
@@ -313,13 +313,13 @@ class Uploader(QtWidgets.QMainWindow):
         """Skip file."""
         self.loadNextFile()
 
-    def showWindowonCenter(self, window) -> None:
+    def showWindowonCenter(self, window: None) -> None:
         """
         Center window.
 
         Parameters
         ----------
-        window
+        window: None
             Window to center.
         """
         window.show()

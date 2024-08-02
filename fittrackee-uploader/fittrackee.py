@@ -1,5 +1,6 @@
 """Interact with FitTrackee API."""
 
+from pathlib import Path
 import requests
 
 
@@ -70,13 +71,15 @@ class FitTrackee:
             return True
         return False
 
-    def add_workout(self, gpx, sport_id: int = 0, equipment_id: str = "", title: str = None, notes: str = ""):
+    def add_workout(
+        self, gpx: str | Path, sport_id: int = 0, equipment_id: str = "", title: str = None, notes: str = ""
+    ):
         """
         Add a workout.
 
         Parameters
         ----------
-        gpx :
+        gpx : str | Path
             GPX file for workout.
         sport_id : int
             Sport ID.

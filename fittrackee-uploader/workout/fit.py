@@ -117,13 +117,13 @@ class Record:
     cadence: float = None
     temperature: float = None
 
-    def __init__(self, frame):
+    def __init__(self, frame: None):
         """
         Initialise the class.
 
         Parameters
         ----------
-        frame
+        frame : None
             Frame to be processed.
         """
         if frame.has_field("timestamp"):
