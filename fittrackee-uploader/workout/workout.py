@@ -44,7 +44,8 @@ class Workout:
         ascent: int | float = None,
         descent: int | float = None,
     ) -> None:
-        """Initialise the class.
+        """
+        Initialise the class.
 
         Parameters
         ----------
