@@ -35,12 +35,14 @@ Clone repository
 git clone https://github.com/ebrithiljonas/fittrackee-uploader.git
 ```
 
-Install dependencies
+Install the package and all dependencies
 
 ```sh
 cd fittrackee-uploader
-pip install -r requirements.txt
+pip install .
 ```
+
+If you wish to work on or modify the code base then include the `-e` flag.
 
 Run application
 
