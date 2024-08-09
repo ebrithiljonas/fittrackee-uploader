@@ -1,6 +1,7 @@
 """Module for loading .fit file types."""
 
 import datetime
+from pathlib import Path
 
 import fitdecode
 import workout.workout as workout
@@ -10,7 +11,14 @@ import workout.workout as workout
 
 
 class FitFile(workout.Workout):
-    """Class for loading .fit files."""
+    """
+    Class for loading .fit files.
+
+    Parameters
+    ----------
+    path : str | Path
+        Path to '.fit' workout file.
+    """
 
     time = (None,)
     distance: float = (None,)
@@ -18,11 +26,15 @@ class FitFile(workout.Workout):
     ascent: float = (None,)
     descent = (None,)
 
-    def __init__(
-        self,
-        path: str,
-    ):
-        """Initialise the class."""
+    def __init__(self, path: str | Path) -> None:
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        path : str | Path
+            Path to '.fit' workout file.
+        """
         # Read Fit File
         self.path = path
         self.file = fitdecode.FitReader(path)
@@ -84,8 +96,15 @@ class FitFile(workout.Workout):
             points, self.path, self.getStats(), self.date, self.time, self.distance, self.ascent, self.descent
         )
 
-    def getSport(self):
-        """Extract sport based on attributes."""
+    def getSport(self) -> int | None:
+        """
+        Extract sport based on attributes.
+
+        Returns
+        -------
+        int | None
+            Integer indicating sport type or None.
+        """
         sport = self.attributes["sport"]
         if sport == "cycling":
             return 1
@@ -93,8 +112,15 @@ class FitFile(workout.Workout):
             return 5
         return None
 
-    def getStats(self):
-        """Extract statistics."""
+    def getStats(self) -> str:
+        """
+        Extract statistics.
+
+        Returns
+        -------
+        str
+            String of average and maximum heart rate, calories and sport type.
+        """
         stats = ""
         if self.attributes is not None:
             stats = f'Average Heart Rate: {self.attributes["avg_heart_rate"]} Bpm \n'
@@ -105,7 +131,14 @@ class FitFile(workout.Workout):
 
 
 class Record:
-    """Class for Record."""
+    """
+    Class for Record.
+
+    Parameters
+    ----------
+    frame : None
+        Frame to be processed.
+    """
 
     timestamp = None
     position_lat: float = None
@@ -117,13 +150,13 @@ class Record:
     cadence: float = None
     temperature: float = None
 
-    def __init__(self, frame):
+    def __init__(self, frame: None):
         """
         Initialise the class.
 
         Parameters
         ----------
-        frame
+        frame : None
             Frame to be processed.
         """
         if frame.has_field("timestamp"):
@@ -146,7 +179,14 @@ class Record:
             self.temperature = frame.get_value("temperature")
 
     def has_position(self) -> bool:
-        """Whether a frame has a GPS position."""
+        """
+        Whether a frame has a GPS position.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether GPS track has latitude/longitude.
+        """
         if self.position_lat is not None and self.position_long is not None:
             return True
         return False

@@ -1,10 +1,19 @@
 """Interact with FitTrackee API."""
 
+from pathlib import Path
+
 import requests
 
 
 class FitTrackee:
-    """FitTrackee class."""
+    """
+    FitTrackee class.
+
+    Parameters
+    ----------
+    timeout : int | float
+        Timeout for connection in seconds.
+    """
 
     url = ""
     token = None
@@ -12,11 +21,19 @@ class FitTrackee:
     user = None
 
     def __init__(self, timeout: int | float = 10000):
-        """Initialise the class."""
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        timeout : int | float
+            Timeout for connection in seconds.
+        """
         self.timeout = timeout
 
     def setUrl(self, url: str) -> None:
-        """Set url and ensure it is correctly formatted.
+        """
+        Set url and ensure it is correctly formatted.
 
         Parameters
         ----------
@@ -28,13 +45,21 @@ class FitTrackee:
         else:
             self.url = url + "/"
 
-    def setToken(self, token):
-        """Set the Token."""
+    def setToken(self, token: str) -> None:
+        """
+        Set the Token.
+
+        Parameters
+        ----------
+        token : str
+            Token for authorizing connection.
+        """
         self.token = token
         self.token_header = {"Authorization": f"Bearer {self.token}"}
 
-    def login(self, url: str, email: str, password: str) -> None:
-        """Login/authenticate with the server.
+    def login(self, url: str, email: str, password: str) -> bool:
+        """
+        Login/authenticate with the server.
 
         Parameters
         ----------
@@ -44,6 +69,11 @@ class FitTrackee:
             Email address of registered user.
         password : str
             Password for 'email'.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether login was successful.
         """
         # Authenticate
         self.setUrl(url)
@@ -58,8 +88,15 @@ class FitTrackee:
             return self.getUserInfo()
         return False
 
-    def getUserInfo(self):
-        """Get user information."""
+    def getUserInfo(self) -> bool:
+        """
+        Get user information.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether login was successful.
+        """
         url = self.url + "api/auth/profile"
         resp = requests.get(url, headers=self.token_header, timeout=self.timeout)
         if resp.status_code == 200:
@@ -68,13 +105,15 @@ class FitTrackee:
             return True
         return False
 
-    def add_workout(self, gpx, sport_id: int = 0, equipment_id: str = "", title: str = None, notes: str = ""):
+    def add_workout(
+        self, gpx: str | Path, sport_id: int = 0, equipment_id: str = "", title: str = None, notes: str = ""
+    ) -> bool:
         """
         Add a workout.
 
         Parameters
         ----------
-        gpx :
+        gpx : str | Path
             GPX file for workout.
         sport_id : int
             Sport ID.
@@ -84,6 +123,11 @@ class FitTrackee:
             Title for workout.
         notes : str
             Notes to accompany the workout.
+
+        Returns
+        -------
+        bool
+            Boolean indicating whether adding workout was successful or not.
         """
         url = self.url + "api/workouts"
         data = {"sport_id": sport_id, "notes": notes}
@@ -106,22 +150,23 @@ class FitTrackee:
     def add_workout_no_gpx(  # pylint: disable=too-many-arguments
         self,
         date: str,
-        duration,
+        duration: int | float,
         distance: float,
         sport_id: int = 0,
         title: str = None,
         notes: str = "",
         ascent: int | float = None,
         descent: int | float = None,
-    ):
-        """Add workout without GPX file.
+    ) -> bool:
+        """
+        Add workout without GPX file.
 
         Parameters
         ----------
         date : str
-            Date
-        duration : Duration of workout.
-            Duration of work out in minutes?
+            Date.
+        duration : int | float
+            Duration of work out in minutes.
         distance : float
             Distance travelled.
         sport_id : int
@@ -131,7 +176,14 @@ class FitTrackee:
         notes : str
             Notes to accompany workout.
         ascent : int | float
+            Gain in altitude.
+        descent : int | float
+            Loss of altitude.
 
+        Returns
+        -------
+        bool
+            Boolean indicating whether adding workout was successful or not.
         """
         url = self.url + "api/workouts/no_gpx"
         data = {
@@ -158,6 +210,11 @@ class FitTrackee:
         ----------
         only_active : bool
             Only get active sports.
+
+        Returns
+        -------
+        list | None
+            List of sports or None.
         """
         url = self.url + "api/sports"
         resp = requests.get(url, headers=self.token_header, timeout=self.timeout)
@@ -181,6 +238,11 @@ class FitTrackee:
         ----------
         only_active : bool
             Only get active equipment.
+
+        Returns
+        -------
+        list | None
+            List of equipment or None.
         """
         url = self.url + "api/equipments"
         resp = requests.get(url, headers=self.token_header, timeout=self.timeout)
