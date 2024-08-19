@@ -4,13 +4,13 @@ import datetime
 from pathlib import Path
 
 import fitdecode
-import workout.workout as workout
+from .workout import Point, Workout
 
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-instance-attributes
 
 
-class FitFile(workout.Workout):
+class FitFile(Workout):
     """
     Class for loading .fit files.
 
@@ -81,7 +81,7 @@ class FitFile(workout.Workout):
         points = []
         for record in self.records:
             if record.has_position():
-                point = workout.Point(
+                point = Point(
                     record.timestamp,
                     (record.getLat(), record.getLong()),
                     record.altitude,

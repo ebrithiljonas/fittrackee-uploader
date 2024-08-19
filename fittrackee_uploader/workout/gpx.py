@@ -1,13 +1,13 @@
 """GPX sub-module."""
 
 import gpxpy
-import workout.workout as workout
+from .workout import Point, Workout
 from typing_extensions import override
 
 # pylint: disable=too-few-public-methods
 
 
-class GPX(workout.Workout):
+class GPX(Workout):
     """
     GPX class.
 
@@ -36,7 +36,7 @@ class GPX(workout.Workout):
         for track in self.gpx_file.tracks:
             for segment in track.segments:
                 for p in segment.points:
-                    point = workout.Point(p.time, (p.latitude, p.longitude), p.elevation)
+                    point = Point(p.time, (p.latitude, p.longitude), p.elevation)
                     points.append(point)
         super().__init__(points, path)
 

@@ -2,8 +2,8 @@
 
 import os
 
-import workout.fit as fit
-import workout.gpx as gpx
+from .fit import FitFile
+from .gpx import GPX
 
 # pylint: disable=too-few-public-methods
 
@@ -12,8 +12,8 @@ class Loader:
     """Class for loading GPX."""
 
     filetypes: dict = {
-        ".fit": fit.FitFile,
-        ".gpx": gpx.GPX,
+        ".fit": FitFile,
+        ".gpx": GPX,
     }
 
     def __init__(self):

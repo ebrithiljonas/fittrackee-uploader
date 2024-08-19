@@ -1,7 +1,7 @@
 """Login."""
 
 from PyQt6 import QtWidgets
-from ui.login import Ui_LoginWindow
+from .ui.login import Ui_LoginWindow
 
 
 class Login(QtWidgets.QWidget):
