@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 name = "fittrackee-uploader"
 description = "GUI for uploading GPX files to Fittrackee"
 readme = "README.md"
-license = {text = "GNU Lesser GPLv3 only"}
+license = {text = "GNU Affero General Publlic License v3.0"}
 dynamic = ["version"]
 authors = [
   {name = "@ebrithiljonas"},
