@@ -10,22 +10,15 @@ title and then just hit upload and your file will automatically be converted to 
 
 ## Features
 
-* Upload workout files from a folder, for example your Garmin watch after connecting it
-* Move uploaded files to a different folder and optionally add title and sport type to the filename
-* Add some basic stats to the description on FitTrackee like calories and average heart rate.
-* Allows uploading files that are not compatible with FitTrackee like FIT files
+- Upload workout files from a folder, for example your Garmin watch after connecting it
+- Move uploaded files to a different folder and optionally add title and sport type to the filename
+- Add some basic stats to the description on FitTrackee like calories and average heart rate.
+- Allows uploading files that are not compatible with FitTrackee like FIT files
 
 ## Supported file types
 
-* FIT
-* GPX
-
-## Basic usage
-
-The first time you start it, you'll be asked to enter your fittrackee URL and user login details, then it will log you
-in automatically. Then go to Settings > Options and select the local folder where the fit/gpx files are located. These
-files will be loaded one by one, so you can select the type of training (run, walk, bike...), give it a title and then
-click on the Upload button.
+- FIT
+- GPX
 
 ## Installation
 
@@ -44,12 +37,22 @@ pip install .
 
 If you wish to work on or modify the code base then include the `-e` flag.
 
-Run application
+## Basic usage
+
+Run the application at the command line with...
 
 ```sh
-python fittrackee-uploader
+fittrackee-uploader
 ```
+
+**NB** - If you use the zsh shell and run this from _within_ the cloned repository it will change directory into the
+`fittrackee-uploader` sub-directory.
+
+The first time you start it, you'll be asked to enter your fittrackee URL and user login details, then it will log you
+in automatically. Then go to _Settings > Options_ and select the local folder where the fit/gpx files are located. These
+files will be loaded one by one, so you can select the type of training (run, walk, bike...), give it a title and then
+click on the Upload button.
 
 ## Current limitations
 
-* Multi-sport files are not supported
+- Multi-sport files are not supported

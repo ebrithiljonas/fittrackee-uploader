@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 name = "fittrackee-uploader"
 description = "GUI for uploading GPX files to Fittrackee"
 readme = "README.md"
-license = {text = "GNU Affero General Publlic License v3.0"}
+license = {text = "GNU Lesser GPLv3 only"}
 dynamic = ["version"]
 authors = [
   {name = "@ebrithiljonas"},
@@ -146,7 +146,7 @@ exclude = [
   "build",
   "dist",
   "venv",
-  "fittrackee-uploads/ui/login.py"
+  "fittrackee_uploads/ui/login.py"
 ]
 # per-file-ignores = []
 line-length = 120
