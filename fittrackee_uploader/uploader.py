@@ -5,15 +5,15 @@ import os
 import sys
 import webbrowser
 
-import configuration
-import fittrackee
+from .configuration import Configuration
+from .fittrackee import FitTrackee
 import folium
-import login
-import options
-import templates
-import workout.loader as loader
+from .login import Login
+from .options import Options
+from .templates import page_failed_to_load, page_no_gps_records, page_no_more_files
+from .workout import loader
 from PyQt6 import QtCore, QtWidgets
-from ui.main import Ui_MainWindow
+from .ui.main import Ui_MainWindow
 
 
 class Uploader(QtWidgets.QMainWindow):
@@ -27,13 +27,13 @@ class Uploader(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.setup_callbacks()
 
-        self.config = configuration.Configuration()
+        self.config = Configuration()
         self.config.saveConfig()
 
-        self.api = fittrackee.FitTrackee()
+        self.api = FitTrackee()
 
-        self.options_window = options.Options(self, self.config)
-        self.login_window = login.Login(self, self.config, self.api)
+        self.options_window = Options(self, self.config)
+        self.login_window = Login(self, self.config, self.api)
 
         self.login()
 
@@ -130,7 +130,7 @@ class Uploader(QtWidgets.QMainWindow):
                 if self.config.auto_skip:
                     self.skipFile()
                 else:
-                    self.ui.webMap.setHtml(templates.page_failed_to_load)
+                    self.ui.webMap.setHtml(page_failed_to_load)
             self.ui.statusbar.showMessage(path)
             if self.current_workout is not None:
                 self.setMap(self.current_workout)
@@ -158,10 +158,10 @@ class Uploader(QtWidgets.QMainWindow):
         """
         if wo is None:
             self.ui.btUpload.setEnabled(False)
-            self.ui.webMap.setHtml(templates.page_no_more_files)
+            self.ui.webMap.setHtml(page_no_more_files)
         elif len(wo.points) == 0:
             self.ui.btUpload.setEnabled(True)
-            self.ui.webMap.setHtml(templates.page_no_gps_records)
+            self.ui.webMap.setHtml(page_no_gps_records)
         else:
             self.ui.btUpload.setEnabled(True)
             m = folium.Map(tiles="OpenStreetMap")

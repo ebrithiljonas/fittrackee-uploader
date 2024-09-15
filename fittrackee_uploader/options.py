@@ -1,7 +1,7 @@
 """Options."""
 
 from PyQt6 import QtWidgets
-from ui.options import Ui_OptionsWindow
+from .ui.options import Ui_OptionsWindow
 
 
 class Options(QtWidgets.QWidget):

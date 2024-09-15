@@ -77,7 +77,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["fittrackee-uploader"]
+include = ["fittrackee_uploader"]
 exclude = ["tests"]
 namespaces = false
 
@@ -85,7 +85,7 @@ namespaces = false
 topostats = ["*.yaml"]
 
 [tool.setuptools_scm]
-write_to = "fittrackee-uploader/_version.py"
+write_to = "fittrackee_uploader/_version.py"
 
 
 [tool.pytest.ini_options]
@@ -103,9 +103,9 @@ filterwarnings = [
 xfail_strict = true
 
 [tool.coverage.run]
-source = ["fittrackee-uploader"]
+source = ["fittrackee_uploader"]
 omit = [
-  "fittrackee-uploader/_version.py",
+  "fittrackee_uploader/_version.py",
   "*tests*",
   "**/__init__*",
 ]
@@ -232,5 +232,5 @@ override_SS05 = [  # override SS05 to allow docstrings starting with these words
     "^Access ",
 ]
 
-# [project.scripts]
-# fittrackee_uploader = "fittrackee-uploader.entry_point:entry_point"
+[project.gui-scripts]
+fittrackee-uploader = "fittrackee_uploader:main"
